@@ -1,0 +1,17 @@
+side:first,men:100,attack:10,defence:5,morale:A,row:0,col:0;
+side:first,men:100,attack:10,defence:5,morale:A,row:0,col:0;
+side:first,men:100,attack:10,defence:5,morale:A,row:0,col:0;
+side:first,men:100,attack:10,defence:5,morale:A,row:0,col:0;
+side:first,men:20,attack:15,defence:5,morale:A,row:1,col:0;
+side:first,men:100,attack:15,defence:5,morale:A,row:1,col:1;
+side:first,men:100,attack:15,defence:5,morale:A,row:1,col:1;
+side:second,men:200,attack:5,defence:5,morale:C,row:8,col:2;
+side:second,men:200,attack:5,defence:5,morale:C,row:8,col:2;
+side:second,men:200,attack:5,defence:5,morale:C,row:8,col:2;
+side:second,men:200,attack:5,defence:5,morale:C,row:8,col:2;
+side:second,men:200,attack:5,defence:5,morale:C,row:8,col:3;
+side:second,men:200,attack:5,defence:5,morale:C,row:8,col:3;
+side:second,men:200,attack:5,defence:5,morale:C,row:8,col:3;
+side:second,men:200,attack:5,defence:5,morale:C,row:8,col:3;
+side:second,men:200,attack:5,defence:5,morale:C,row:8,col:3;
+saveside:second;
