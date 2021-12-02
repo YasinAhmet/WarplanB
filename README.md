@@ -27,6 +27,7 @@ Row'u 1 olan, col'u 2 olan bir birlik 2. satırın 3. altıgeninde çıkar(row/c
 
 Her altıgen tipinin savunma değeri vardır. Şehirin 15, ormanlığın 10, çayırın 5, denizin ise 0'dır. Denizde birlik yürütülemez.
 
+Oynanış:
 Oyunun teknik olarak bilinmesi gereken konuları bu kadardır. Oyunu oynarken haritadan sol tık ile altıgen seçebilir, sağda çıkan panelden de aynı şekilde sol tık ile birlik seçebilirsiniz.
 Seçilen birlikler sağ tık ile haritada yürütülebilir, yürütülen yerde düşman birlik varsa ona saldırır. Hareket etmek 5 hareket puanı, saldırmak 10 hareket puanı alır.
 
