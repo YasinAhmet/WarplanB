@@ -140,27 +140,24 @@ public class Mouselistener implements MouseListener {
 
                         int hexDefence = 0;
                         if (hex.getHextype().equals("forrest")) {
-                            hexDefence = 10;
+                            hexDefence = 4;
                         } else if (hex.getHextype().equals("grassland")) {
-                            hexDefence = 5;
+                            hexDefence = 2;
                         } else if (hex.getHextype().equals("city")) {
-                            hexDefence = 15;
+                            hexDefence = 6;
                         }
 
-                        while (!(damage >= 0)) {
                             damage = damage / hex.getDivisions().size();
                             for (int i = 0; i < hex.getDivisions().size(); i++) {
 
                                 hex.getDivisions().get(i).setMen(hex.getDivisions().get(i).getMen() - (damage - (hex.getDivisions().get(i).getSavunma() + hexDefence)));
 
                                 if (hex.getDivisions().get(i).getMen() <= 0) {
-                                    damage = damage + (-1 * hex.getDivisions().get(i).getMen());
                                     hex.getDivisions().remove(i);
                                     i--;
                                 }
-
                             }
-                        }
+
 
                         infoPanel.reformPanel(infoPanel.getHexDivisions());
                     }

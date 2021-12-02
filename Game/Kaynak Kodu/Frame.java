@@ -15,6 +15,7 @@ public class Frame extends JFrame {
 
         toolbar.setBar();
         toolbar.getButton().addActionListener(this::NextTurn);
+        toolbar.getButtonSave().addActionListener(this::Save);
         add(toolbar, BorderLayout.NORTH);
 
         panel.startPanel();
@@ -34,6 +35,9 @@ public class Frame extends JFrame {
 
     public void NextTurn(ActionEvent e) {
         panel.NextTurn();
+    }
+    public void Save(ActionEvent e) {
+        panel.Save();
     }
 
     public int Close() {

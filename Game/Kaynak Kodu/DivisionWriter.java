@@ -5,10 +5,12 @@ import java.util.ArrayList;
 
 public class DivisionWriter {
     private FileWriter writer;
+    File file;
 
 
     public void writeItAll(ArrayList<Hexagon> hexagons, String side) {
         try {
+            writer = new FileWriter(file);
             String txt = "";
             for (int i = 0; i < hexagons.size(); i++) {
 
@@ -25,18 +27,22 @@ public class DivisionWriter {
                 }
             }
             txt = txt + "saveside:"+side+";";
-            System.out.println(txt);
             writer.write(txt);
             writer.close();
 
         } catch (IOException e) {
-            System.out.println("IO EXCEPTION");
+            System.out.println(file.getPath());
+            System.out.println(new File(DivisionWriter.class.getProtectionDomain().getCodeSource().getLocation().getPath()));
         }
     }
 
     public void setWriter(File file) {
         try {
+
+
+            this.file = file;
             this.writer = new FileWriter(file);
+
         } catch (IOException e) {
             System.out.println("IO");
         }

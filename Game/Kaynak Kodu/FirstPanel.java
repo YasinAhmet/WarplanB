@@ -108,7 +108,6 @@ public class FirstPanel extends JPanel {
 
     public void useHexList() {
         hexagonReader = new HexagonReader();
-        System.out.println(location);
 
         hexagonReader.setHexReader(location);
         hexagonReader.ReadFile();
@@ -214,6 +213,8 @@ public class FirstPanel extends JPanel {
 
     public void startPanel() {
         useLocation();
+        useDivisionReader();
+        useDivisionWriter();
         usePhotos();
         setup();
         backgroundMech();
@@ -222,8 +223,6 @@ public class FirstPanel extends JPanel {
         useCamera();
         useTimer();
         useHexList();
-        useDivisionReader();
-        useDivisionWriter();
         useInfoPanel();
 
         useMouseListener(infoPanel);
