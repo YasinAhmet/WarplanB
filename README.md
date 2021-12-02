@@ -14,13 +14,14 @@ saveside:second;
 Bu kod da oyunun kaydedildiği tarafı belirtir.
 
 
-Hexagons.txt dosyasında da harita oluşturulur. Bu dosya şuna benzer:
+Hexagons.txt dosyasında da harita oluşturulur. Bu dosyanın içeriği şuna benzer:
 
-kkkggggcgk
-kkgggggcck
-ccccsgggkk
-ssssssgggg
-ssssssssss
+(1. Satır)kkkggggcgk
+(2. Satır)kkgggggcck
+(3. Satır)ccccsgggkk
+(4. Satır)ssssssgggg
+(5. Satır)ssssssssss
+
 S(Sea) denizi, K(?) şehiri, G(Grassland) çayırı, C(?) ormanlığı temsil eder. Yukardan aşağı col değeri, soldan sağa ise row değeri kullanılır. Örneğin;
 Row'u 1 olan, col'u 2 olan bir birlik 2. satırın 3. altıgeninde çıkar(row/col+1 olarak, yani 0 değeri en soldur).
 
