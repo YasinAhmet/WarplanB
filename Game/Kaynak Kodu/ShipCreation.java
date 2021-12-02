@@ -1,4 +1,4 @@
-
+// Bu classı oyunu space invaders yapmaya çalışırken oluşturmuştum
 public class ShipCreation{
     private Keyboard keyboard = new Keyboard();
     private Ship ship = new Ship();
