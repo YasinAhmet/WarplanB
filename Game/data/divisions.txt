@@ -3,6 +3,7 @@ side:first,men:100,attack:10,defence:5,morale:A,row:0,col:0;
 side:first,men:100,attack:10,defence:5,morale:A,row:0,col:0;
 side:first,men:100,attack:10,defence:5,morale:A,row:0,col:0;
 side:first,men:100,attack:10,defence:5,morale:A,row:0,col:0;
+side:first,men:100,attack:10,defence:5,morale:A,row:0,col:0;
 side:second,men:200,attack:10,defence:5,morale:C,row:7,col:2;
 side:second,men:200,attack:10,defence:5,morale:C,row:7,col:2;
 side:second,men:200,attack:10,defence:5,morale:C,row:8,col:3;

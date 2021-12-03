@@ -17,7 +17,9 @@ public class DivisionWriter {
                 for (int d = 0; d < hexagons.get(i).getDivisions().size(); d++) {
                     Divisions div = hexagons.get(i).getDivisions().get(d);
 
-                     txt = txt + ("side:" + div.getSide() + ",men:" + div.getMen() + ",attack:" +
+                     //txt = txt +
+
+                    writer.write("side:" + div.getSide() + ",men:" + div.getMen() + ",attack:" +
                             div.getSaldırı() + ",defence:" + div.getSavunma() + ",morale:" +
                             div.getMahiyet() + ",row:" + hexagons.get(i).getRow() + ",col:" + hexagons.get(i).getColumn() + ";\n");
 
@@ -26,9 +28,10 @@ public class DivisionWriter {
 
                 }
             }
-            txt = txt + "saveside:"+side+";";
-            writer.write(txt);
+            //txt = txt +
+            writer.write("saveside:"+side+";");
             writer.close();
+
 
         } catch (IOException e) {
             System.out.println(file.getPath());

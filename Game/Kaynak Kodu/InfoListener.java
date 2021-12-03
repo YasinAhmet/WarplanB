@@ -27,7 +27,7 @@ public class InfoListener implements MouseListener {
         if (side.equals(hexDivisions.get(0).getSide())) {
             for (int i = 0; i < hexDivisions.size(); i++) {
 
-                if (y >= 29 + (i * 100) && y <= 62 + (i * 100)) {
+                if (y >= 29 + (i * 100) && y <= 109 + (i * 100)) {
 
                     if (hexDivisions.get(i).isSelected()) {
                         hexDivisions.get(i).setSelected(false);

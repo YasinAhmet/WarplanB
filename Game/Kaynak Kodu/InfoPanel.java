@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
+
 public class InfoPanel extends JPanel {
     private ArrayList<Divisions> hexDivisions = new ArrayList<>();
     private int width = 366, height = 720;
@@ -10,6 +11,7 @@ public class InfoPanel extends JPanel {
     private final InfoListener infoListener = new InfoListener();
     private final Timer timer = new Timer(34,this::detectClick);
     private int hexX = 0, hexY = 0;
+    private Font f = new Font ("Monospaced", Font.BOLD, 16);
 
     public void detectClick(ActionEvent e) {
 
@@ -82,12 +84,19 @@ public class InfoPanel extends JPanel {
             hexDivisions.get(i).getDivisionImage().paintIcon(this,g,30,30+h);
 
 
-            g.setColor(new Color(155,60,70));
-            g.drawString("Savunma: " + hexDivisions.get(i).getSavunma() + " Savunmasında",35, 80+h);
-            g.drawString("Saldırı: " + hexDivisions.get(i).getSaldırı() + " Gücünde",35, 95+h);
-            g.drawString("Mahiyet: " + hexDivisions.get(i).getMahiyet() + " Kalitesinde",200, 80+h);
-            g.drawString("Sayı: " + hexDivisions.get(i).getMen() + " Asker",200, 95+h);
-            g.drawString("Hareket Puanı: " + hexDivisions.get(i).getMovementPoint() + " Hareket Puanı",80, 40+h);
+
+            g.setFont(f);
+
+            g.setColor(new Color(0,0,0));
+            g.drawString("Hareket Puanı: ",80, 40+h);
+            g.drawString(hexDivisions.get(i).getMovementPoint() + " Hareket Puanı",80, 50+h);
+            g.drawString("Savunma: " + hexDivisions.get(i).getSavunma() + " Savunmasında",35, 70+h);
+
+            g.setColor(new Color(255,255,255));
+            g.drawString("Saldırı: " + hexDivisions.get(i).getSaldırı() + " Gücünde",35, 82+h);
+            g.drawString("Mahiyet: " + hexDivisions.get(i).getMahiyet() + " Kalitesinde",35, 94+h);
+            g.drawString("Sayı: " + hexDivisions.get(i).getMen() + " Asker",35, 106+h);
+
 
 
             h = h + 100;

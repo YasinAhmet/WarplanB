@@ -8,6 +8,7 @@ public class DivisionReader {
     private Scanner scanner;
     private ArrayList<Divisions> divisions;
     private String side = "first";
+    private boolean isItDiv = true;
 
     public void setDivReader(String location) {
         try {
@@ -27,6 +28,7 @@ public class DivisionReader {
             String line = scanner.nextLine();
             Divisions division = new Divisions();
             String curentline = "";
+            isItDiv = true;
 
             for (int i = 0; i < line.length(); i++) {
 
@@ -71,6 +73,7 @@ public class DivisionReader {
                         curentline = "";
                         side = linecheck(i, line);
                         i = checkI(i, line);
+                        isItDiv = false;
                     }
                 }
 
@@ -81,7 +84,9 @@ public class DivisionReader {
 
             }
 
-            divisions.add(division);
+            if (isItDiv) {
+                divisions.add(division);
+            }
         }
 
         return divisions;

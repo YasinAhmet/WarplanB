@@ -4,10 +4,11 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 public class Mouselistener implements MouseListener {
-    Camera camera;
-    ArrayList<Hexagon> hexagonArrayList;
-    JPanel panel;
-    InfoPanel infoPanel;
+    private Camera camera;
+    private ArrayList<Hexagon> hexagonArrayList;
+    private JPanel panel;
+    private InfoPanel infoPanel;
+    private Hexagon selectedHexagon, selectedHexagon2;
 
     public void ms (JPanel panel, ArrayList<Hexagon> hexagons, Camera camera) {
         this.camera = camera;
@@ -59,9 +60,27 @@ public class Mouselistener implements MouseListener {
                         infoPanel.getHexDivisions().get(d).setSelected(false);
                     }
 
+                    if(selectedHexagon == null) {
+                        selectedHexagon = hex;
+                    } else if (selectedHexagon2 == null) {
+                        selectedHexagon2 = hex;
+                    } if (selectedHexagon2 != selectedHexagon && selectedHexagon2 != null) {
+                        selectedHexagon2 = null; selectedHexagon = null;
+                    }
+
+
+
                     infoPanel.reformPanel(hex.getDivisions());
                     infoPanel.setHexX(hex.getRow());
                     infoPanel.setHexY(hex.getColumn());
+
+                    if(selectedHexagon == selectedHexagon2) {
+                        for (int g = 0; g < infoPanel.getHexDivisions().size(); g++) {
+                            infoPanel.getHexDivisions().get(g).setSelected(true);
+                        }
+
+                        selectedHexagon2 = null; selectedHexagon = null;
+                    }
 
                     return;
                 }

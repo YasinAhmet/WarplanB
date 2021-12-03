@@ -156,7 +156,7 @@ public class FirstPanel extends JPanel {
 
                 hexagon.hexagon(hexagon.getX(), hexagon.getY(), hexagon.getHexagonX(), hexagon.getHexagonY(), Color.gray, i, column);
 
-                if (!(line.charAt(i) == 'l')) {
+                if (!(line.charAt(i) == 's')) {
 
                     for (int g = 0; g < divisions.size(); g++) {
 
@@ -234,6 +234,9 @@ public class FirstPanel extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+
+        setup();
+        infoPanel.setPanel(clientSide);
 
         g.setColor(Color.red);
 
