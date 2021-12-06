@@ -1,0 +1,12 @@
+side:first,men:91,attack:10,defence:5,morale:A,row:0,col:0;
+side:second,men:84,attack:10,defence:5,morale:C,row:1,col:0;
+side:second,men:84,attack:10,defence:5,morale:C,row:1,col:0;
+side:second,men:84,attack:10,defence:5,morale:C,row:1,col:0;
+side:second,men:84,attack:10,defence:5,morale:C,row:1,col:0;
+side:second,men:84,attack:10,defence:5,morale:C,row:1,col:0;
+side:second,men:84,attack:10,defence:5,morale:C,row:2,col:0;
+side:second,men:84,attack:10,defence:5,morale:C,row:2,col:0;
+side:second,men:84,attack:10,defence:5,morale:C,row:2,col:0;
+side:second,men:84,attack:10,defence:5,morale:C,row:2,col:0;
+side:second,men:84,attack:10,defence:5,morale:C,row:2,col:0;
+saveside:second;
