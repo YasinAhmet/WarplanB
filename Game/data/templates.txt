@@ -1,0 +1,2 @@
+template:gerInf,side:second,photo:unit/german.png,men:100,attack:20,defence:10,morale:A;
+template:ruInf,side:first,photo:unit/russian.png,men:150,attack:20,defence:10,morale:B;

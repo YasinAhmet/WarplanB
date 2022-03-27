@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 public class InfoPanel extends JPanel {
     private ArrayList<Divisions> hexDivisions = new ArrayList<>();
+    public Hexagon currentHex = null;
     private int width = 366, height = 720;
     private ImageIcon background;
     private final InfoListener infoListener = new InfoListener();
@@ -87,17 +88,15 @@ public class InfoPanel extends JPanel {
 
             g.setFont(f);
 
-            g.setColor(new Color(0,0,0));
-            g.drawString("Hareket Puanı: ",80, 40+h);
-            g.drawString(hexDivisions.get(i).getMovementPoint() + " Hareket Puanı",80, 50+h);
-            g.drawString("Savunma: " + hexDivisions.get(i).getSavunma() + " Savunmasında",35, 70+h);
+                g.setColor(new Color(0, 0, 0));
+                g.drawString("Movement point: ", 80, 40 + h);
+                g.drawString("" + hexDivisions.get(i).getMovementPoint(), 80, 50 + h);
+                g.drawString("Defense: " + hexDivisions.get(i).getSavunma(), 35, 70 + h);
 
-            g.setColor(new Color(255,255,255));
-            g.drawString("Saldırı: " + hexDivisions.get(i).getSaldırı() + " Gücünde",35, 82+h);
-            g.drawString("Mahiyet: " + hexDivisions.get(i).getMahiyet() + " Kalitesinde",35, 94+h);
-            g.drawString("Sayı: " + hexDivisions.get(i).getMen() + " Asker",35, 106+h);
-
-
+                g.setColor(new Color(255, 255, 255));
+                g.drawString("Attack: " + hexDivisions.get(i).getSaldırı(), 35, 82 + h);
+                g.drawString("Quality: " + hexDivisions.get(i).getMahiyet(), 35, 94 + h);
+                g.drawString("Quantity: " + hexDivisions.get(i).getMen(), 35, 106 + h);
 
             h = h + 100;
         }

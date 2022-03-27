@@ -8,27 +8,18 @@ public class DivisionWriter {
     File file;
 
 
-    public void writeItAll(ArrayList<Hexagon> hexagons, String side) {
+    public void writeItAll(ArrayList<Divisions> divs, String side) {
         try {
             writer = new FileWriter(file);
-            String txt = "";
-            for (int i = 0; i < hexagons.size(); i++) {
 
-                for (int d = 0; d < hexagons.get(i).getDivisions().size(); d++) {
-                    Divisions div = hexagons.get(i).getDivisions().get(d);
+                for (int d = 0; d < divs.size(); d++) {
+                    Divisions div = divs.get(d);
 
-                     //txt = txt +
-
-                    writer.write("side:" + div.getSide() + ",men:" + div.getMen() + ",attack:" +
+                    writer.write("side:" + div.getSide() + ",photo:" + div.getImgpath() + ",men:" + div.getMen() + ",attack:" +
                             div.getSaldırı() + ",defence:" + div.getSavunma() + ",morale:" +
-                            div.getMahiyet() + ",row:" + hexagons.get(i).getRow() + ",col:" + hexagons.get(i).getColumn() + ";\n");
-
-
-
+                            div.getMahiyet() + ",row:" + div.getRow() + ",col:" + div.getColumn() + ";\n");
 
                 }
-            }
-            //txt = txt +
             writer.write("saveside:"+side+";");
             writer.close();
 

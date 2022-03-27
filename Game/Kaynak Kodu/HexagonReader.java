@@ -11,7 +11,7 @@ public class HexagonReader  {
     public void setHexReader(String location) {
         try {
 
-            hexFile = new File(location+"\\data\\hexagons.txt");
+            hexFile = new File(location);
             scanner = new Scanner(hexFile);
             lines = new ArrayList<>();
 

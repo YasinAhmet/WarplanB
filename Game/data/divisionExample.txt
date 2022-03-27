@@ -1,0 +1,5 @@
+side:second,men:84,attack:10,defence:5,morale:C,row:2,col:0;
+side:second,men:84,attack:10,defence:5,morale:C,row:2,col:0;
+side:first,men:84,attack:10,defence:5,morale:C,row:3,col:0;
+side:first,men:84,attack:10,defence:5,morale:C,row:3,col:0;
+saveside:first;

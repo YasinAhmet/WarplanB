@@ -2,15 +2,16 @@ import javax.swing.ImageIcon;
 import java.awt.*;
 
 public class Divisions {
-    private ImageIcon divisionImage;
+    private ImageIcon divisionImage = new ImageIcon();
     private int Men = 100;
     private char Mahiyet = 'A';
     private int Saldırı = 10;
     private int Savunma = 5;
-    private ImageIcon divisionBackground;
+    private ImageIcon divisionBackground = new ImageIcon();
     private String side = "first";
     private int movementPoint = 20;
     private boolean isSelected = false;
+    public String imgpath = "";
     private int row = 0, column = 0;
 
     public void Division(ImageIcon divisionImage, int men, char mahiyet, int saldırı, int savunma, ImageIcon background, String side, int movementPoint) {
@@ -36,6 +37,7 @@ public class Divisions {
         return row;
     }
 
+
     public int getColumn() {
         return column;
     }
@@ -58,6 +60,14 @@ public class Divisions {
 
     public int getSaldırı() {
         return Saldırı;
+    }
+
+    public void setImgpath(String imgpath2) {
+        imgpath = imgpath2;
+    }
+
+    public String getImgpath() {
+        return imgpath;
     }
 
     public int getMovementPoint() {

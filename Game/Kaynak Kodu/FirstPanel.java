@@ -2,16 +2,19 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.File;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 public class FirstPanel extends JPanel {
+    private String divlocation;
+    private String maplocation;
+    private String edgelocation;
     private String location;
     private final int Width = 1000;
     private final int Height = 680;
     private final Color panelColor = new Color(23, 88, 52);
 
     private CameraKey cameraKey;
+    private Mouselistener mouselistener = new Mouselistener();
 
     private Timer timer;
     private int hexagonCreationX = 0;
@@ -22,14 +25,6 @@ public class FirstPanel extends JPanel {
 
     private ImageIcon img = new ImageIcon("unit\\untitled.png");
     private ImageIcon NatoINF = new ImageIcon("unit\\untitled.png");
-    private ImageIcon SovietINF = new ImageIcon("unit\\soviet.png");
-    private ImageIcon GermanINF = new ImageIcon("unit\\german.png");
-
-    private ImageIcon desert = new ImageIcon("map\\desert1.png");
-    private ImageIcon coast = new ImageIcon("map\\coast1.png");
-    private ImageIcon grassland = new ImageIcon("map\\grassland1.png");
-    private ImageIcon sea = new ImageIcon("map\\sea1.png");
-    private ImageIcon city = new ImageIcon("map\\city1.png");
 
     private DivisionReader divisionReader;
     private ArrayList<Divisions> divisions;
@@ -50,15 +45,6 @@ public class FirstPanel extends JPanel {
     private void usePhotos() {
         img = new ImageIcon(location+"\\unit\\untitled.png");
         NatoINF = new ImageIcon(location+"\\unit\\untitled.png");
-        SovietINF = new ImageIcon(location+"\\unit\\soviet.png");
-        GermanINF = new ImageIcon(location+"\\unit\\german.png");
-
-        desert = new ImageIcon(location+"\\map\\desert1.png");
-        grassland = new ImageIcon(location+"\\map\\grassland1.png");
-        coast = new ImageIcon(location+"\\map\\coast1.png");
-        sea = new ImageIcon(location+"\\map\\sea1.png");
-        city = new ImageIcon(location+"\\map\\city1.png");
-
         infoPanel.setBackground(location+"\\unit\\infoPanelBackground.png");
     }
 
@@ -69,8 +55,8 @@ public class FirstPanel extends JPanel {
 
     private void useDivisionReader() {
         divisionReader = new DivisionReader();
-        divisionReader.setHexFile(new File(location+"\\data\\divisions.txt"));
-        divisionReader.setDivReader(location);
+        divisionReader.setHexFile(new File(divlocation));
+        divisionReader.setDivReader(divlocation);
         divisions = new ArrayList<>();
         divisions = divisionReader.ReadFile();
 
@@ -81,9 +67,13 @@ public class FirstPanel extends JPanel {
         timer.start();
     }
 
-    private void useLocation() {
+    private void useLocation(String div, String map, String edge) {
         location = FirstPanel.class.getProtectionDomain().getCodeSource().getLocation().getPath();
         location = (new File(location)).getParentFile().getPath();
+
+        divlocation = location+"\\data\\"+div+".txt";
+        maplocation = location+"\\data\\"+map+".txt";
+        edgelocation = location+"\\data\\"+edge+".txt";
     }
 
     private void startingGameObjects() {
@@ -93,7 +83,7 @@ public class FirstPanel extends JPanel {
     public void useHexList() {
         hexagonReader = new HexagonReader();
 
-        hexagonReader.setHexReader(location);
+        hexagonReader.setHexReader(maplocation);
         hexagonReader.ReadFile();
         lines = hexagonReader.getLines();
     }
@@ -146,11 +136,11 @@ public class FirstPanel extends JPanel {
 
                         if (divisions.get(g).getRow() == hexagon.getRow() && divisions.get(g).getColumn() == hexagon.getColumn()) {
 
-                            if (divisions.get(g).getSide().equals("first")) {
-                                divisions.get(g).setDivisionBackground(GermanINF);
-                            } else if (divisions.get(g).getSide().equals("second")) {
-                                divisions.get(g).setDivisionBackground(SovietINF);
-                            }
+                            //if (divisions.get(g).getSide().equals("first")) {
+                            //    divisions.get(g).setDivisionBackground(GermanINF);
+                            //} else if (divisions.get(g).getSide().equals("second")) {
+                            //    divisions.get(g).setDivisionBackground(SovietINF);
+                            //}
 
                             addDivisions(hexagon, divisions.get(g).getMen(), divisions.get(g).getMahiyet(), divisions.get(g).getSaldırı(), divisions.get(g).getSavunma(), divisions.get(g).getSide(), divisions.get(g).getDivisionBackground());
                         }
@@ -177,7 +167,6 @@ public class FirstPanel extends JPanel {
     }
 
     public void useMouseListener(InfoPanel infoPanel) {
-        Mouselistener mouselistener = new Mouselistener();
         mouselistener.ms(this, hexagons, cameraKey.getCamera());
 
         mouselistener.setInfoPanel(infoPanel);
@@ -192,13 +181,12 @@ public class FirstPanel extends JPanel {
 
     public void useDivisionWriter() {
         divisionWriter = new DivisionWriter();
-        divisionWriter.setWriter(new File(location+"\\data\\divisions.txt"));
+        divisionWriter.setWriter(new File(divlocation));
     }
 
-    public void startPanel() {
-        useLocation();
+    public void startPanel(String div, String map, String edge) {
+        useLocation(div, map, edge);
         useDivisionReader();
-        useDivisionWriter();
         usePhotos();
         setup();
         backgroundMech();
@@ -209,8 +197,9 @@ public class FirstPanel extends JPanel {
 
         useMouseListener(infoPanel);
 
-
         addHexagon();
+        useHexData();
+        useDivisionWriter();
     }
 
     @Override
@@ -237,68 +226,19 @@ public class FirstPanel extends JPanel {
                 continue;
             }
 
-            g.setColor(getI.getColor());
+            drawHex(g,getI);
 
             getI.setCameraX(cameraKey.getCamera().getX());
             getI.setCameraY(cameraKey.getCamera().getY());
             getI.setX(getI.getX(), getI.getHexagonX(), cameraKey.getCamera().getZoom());
             getI.setY(getI.getY(), getI.getHexagonY(), cameraKey.getCamera().getZoom());
-
-
-            if (cameraKey.getCamera().getZoom() == 2) {
-                img = new ImageIcon(location+"\\unit\\untitledZ2.png");
-                desert = new ImageIcon(location+"\\map\\desert2.png");
-                grassland = new ImageIcon(location+"\\map\\grassland2.png");
-                coast = new ImageIcon(location+"\\map\\coast2.png");
-                sea = new ImageIcon(location+"\\map\\sea2.png");
-                city = new ImageIcon(location+"\\map\\city2.png");
-            } else if (cameraKey.getCamera().getZoom() == 1) {
-                img = new ImageIcon(location+"\\unit\\untitled.png");
-                desert = new ImageIcon(location+"\\map\\desert1.png");
-                grassland = new ImageIcon(location+"\\map\\grassland1.png");
-                coast = new ImageIcon(location+"\\map\\coast1.png");
-                sea = new ImageIcon(location+"\\map\\sea1.png");
-                city = new ImageIcon(location+"\\map\\city1.png");
-
-            }
-
-            g.fillPolygon(getI.getX(), getI.getY(), 6);
-            if (getI.getHextype().equals("desert") && cameraKey.getCamera().getZoom() == 1) {
-                desert.paintIcon(this, g, (getI.getHexagonX() - (75)) - cameraKey.getCamera().getX(), (getI.getHexagonY() - 50) - cameraKey.getCamera().getY());
-            } else if (getI.getHextype().equals("desert") && cameraKey.getCamera().getZoom() == 2) {
-                desert.paintIcon(this, g, (getI.getHexagonX() / 2 - (37) - cameraKey.getCamera().getX() / 2), (getI.getHexagonY() / 2 - 25) - cameraKey.getCamera().getY() / 2);
-            }
-            if (getI.getHextype().equals("forrest") && cameraKey.getCamera().getZoom() == 1) {
-                coast.paintIcon(this, g, (getI.getHexagonX() - (75)) - cameraKey.getCamera().getX(), (getI.getHexagonY() - 50) - cameraKey.getCamera().getY());
-            } else if (getI.getHextype().equals("forrest") && cameraKey.getCamera().getZoom() == 2) {
-                coast.paintIcon(this, g, (getI.getHexagonX() / 2 - (37)) - cameraKey.getCamera().getX() / 2, (getI.getHexagonY() / 2 - 25) - cameraKey.getCamera().getY() / 2);
-            }
-            if (getI.getHextype().equals("grassland") && cameraKey.getCamera().getZoom() == 1) {
-                grassland.paintIcon(this, g, (getI.getHexagonX() - (75)) - cameraKey.getCamera().getX(), (getI.getHexagonY() - 50) - cameraKey.getCamera().getY());
-            } else if (getI.getHextype().equals("grassland") && cameraKey.getCamera().getZoom() == 2) {
-                grassland.paintIcon(this, g, (getI.getHexagonX() / 2 - (37)) - cameraKey.getCamera().getX() / 2, (getI.getHexagonY() / 2 - 25) - cameraKey.getCamera().getY() / 2);
-            }
-            if (getI.getHextype().equals("sea") && cameraKey.getCamera().getZoom() == 1) {
-                sea.paintIcon(this, g, (getI.getHexagonX() - (75)) - cameraKey.getCamera().getX(), (getI.getHexagonY() - 50) - cameraKey.getCamera().getY());
-            } else if (getI.getHextype().equals("sea") && cameraKey.getCamera().getZoom() == 2) {
-                sea.paintIcon(this, g, (getI.getHexagonX() / 2 - (37)) - cameraKey.getCamera().getX() / 2, (getI.getHexagonY() / 2 - 25) - cameraKey.getCamera().getY() / 2);
-            }
-            if (getI.getHextype().equals("city") && cameraKey.getCamera().getZoom() == 1) {
-                city.paintIcon(this, g, (getI.getHexagonX() - (75)) - cameraKey.getCamera().getX(), (getI.getHexagonY() - 50) - cameraKey.getCamera().getY());
-            } else if (getI.getHextype().equals("city") && cameraKey.getCamera().getZoom() == 2) {
-                city.paintIcon(this, g, (getI.getHexagonX() / 2 - (37)) - cameraKey.getCamera().getX() / 2, (getI.getHexagonY() / 2 - 25) - cameraKey.getCamera().getY() / 2);
-            }
-            g.drawPolygon(getI.getX(), getI.getY(), 6);
+            setImages();
 
 
             int k = 0;
             for (int d = 0; d < getI.getDivisions().size(); d++) {
                 img.paintIcon(this, g, (getI.getHexagonX() - cameraKey.getCamera().getX() - 50 + k * 3) / cameraKey.getCamera().getZoom(), (getI.getHexagonY() - cameraKey.getCamera().getY() - 20 - k * 3) / cameraKey.getCamera().getZoom());
                 k++;
-
-                if(d >= 6) {
-
-                }
             }
 
 
@@ -306,14 +246,26 @@ public class FirstPanel extends JPanel {
 
     }
 
+    public void setImages() {
+        if (cameraKey.getCamera().getZoom() == 2) {
+            img = new ImageIcon(location+"\\unit\\untitledZ2.png");
+        } else if (cameraKey.getCamera().getZoom() == 1) {
+            img = new ImageIcon(location+"\\unit\\untitled.png");
+        }
+    }
 
     public CameraKey returnCameraKey() {
-        return cameraKey;
+        cameraKey.addUpdate(this); return cameraKey;
     }
 
-    public void HexagonCreation(ActionEvent e) {
-        addHexagon();
+    public void useHexData() {
+        HexDataReader hexDataReader = new HexDataReader();
+        hexDataReader.setDivReader(edgelocation);
+        hexagons = hexDataReader.ReadFile(hexagons);
+
     }
+
+    //public void HexagonCreation(ActionEvent e) {addHexagon();}
 
     public InfoPanel getInfoPanel() {
         return infoPanel;
@@ -352,9 +304,6 @@ public class FirstPanel extends JPanel {
 
             }
 
-            setClientSide("second"); infoPanel.getInfoListener().setSide("second");
-        } else if (getClientSide().equals("second")) {
-
             for (Hexagon hexagon : hexagons) {
 
                 for (Divisions divisions : hexagon.getDivisions()) {
@@ -364,11 +313,13 @@ public class FirstPanel extends JPanel {
                         divisions.setSelected(false);
                     }
 
+                    playAITurn(hexagon, hexagons);
+
                 }
 
             }
 
-            setClientSide("first"); infoPanel.getInfoListener().setSide("first");
+            setClientSide("first");
         }
         infoPanel.repaint();
         Save();
@@ -381,7 +332,119 @@ public class FirstPanel extends JPanel {
 
     public void Save() {
 
-        divisionWriter.writeItAll(hexagons, clientSide);
+        divisionWriter.writeItAll(divisions, clientSide);
 
+    }
+
+    public void drawHex(Graphics g, Hexagon getI) {
+        g.setColor(getI.getColor());
+        g.fillPolygon(getI.getX(), getI.getY(), 6);
+        if (getI.getHextype().equals("desert")) {
+            g.setColor(new Color(170,190,80));
+            g.fillPolygon(getI.getX(), getI.getY(), 6);
+        }
+        if (getI.getHextype().equals("forrest")) {
+            g.setColor(new Color(10,70,10));
+            g.fillPolygon(getI.getX(), getI.getY(), 6);
+        }
+        if (getI.getHextype().equals("grassland")) {
+            g.setColor(new Color(100,170,90));
+            g.fillPolygon(getI.getX(), getI.getY(), 6);
+        }
+        if (getI.getHextype().equals("sea")) {
+            g.setColor(new Color(50,150,200));
+            g.fillPolygon(getI.getX(), getI.getY(), 6);
+        }
+        if (getI.getHextype().equals("city")) {
+            g.setColor(Color.gray);
+            g.fillPolygon(getI.getX(), getI.getY(), 6);
+        }
+        g.setColor(getI.getColor());
+        g.drawPolygon(getI.getX(), getI.getY(), 6);
+
+        drawedges(g,getI);
+    }
+
+    public void drawedges(Graphics g, Hexagon getI) {
+        int posy = getI.getHexagonY()-cameraKey.getCamera().getY();
+        int posx = getI.getHexagonX()-cameraKey.getCamera().getX();
+
+        int zoom = cameraKey.getCamera().getZoom();
+
+        //north
+        g.setColor(edgeCheck(0,getI));
+        g.drawLine((posx-50)/zoom, (posy-48)/zoom, (posx-2)/zoom, (posy-48)/zoom);
+        g.drawLine((posx-50)/zoom, (posy-49)/zoom, (posx-2)/zoom, (posy-49)/zoom);
+        g.drawLine((posx-50)/zoom, (posy-50)/zoom, (posx-2)/zoom, (posy-50)/zoom);
+
+        //north-east
+        g.setColor(edgeCheck(1,getI));
+        g.drawLine((posx-2)/zoom, (posy-50)/zoom, (posx+23)/zoom, (posy)/zoom);
+        g.drawLine((posx-1)/zoom, (posy-50)/zoom, (posx+24)/zoom, (posy)/zoom);
+        g.drawLine((posx)/zoom, (posy-50)/zoom, (posx+25)/zoom, (posy)/zoom);
+
+        //south-east
+        g.setColor(edgeCheck(2,getI));
+        g.drawLine((posx+23)/zoom, (posy)/zoom, (posx-2)/zoom, (posy+50)/zoom);
+        g.drawLine((posx+24)/zoom, (posy)/zoom, (posx-1)/zoom, (posy+50)/zoom);
+        g.drawLine((posx+25)/zoom, (posy)/zoom, (posx)/zoom, (posy+50)/zoom);
+
+        //south
+        g.setColor(edgeCheck(3,getI));
+        g.drawLine((posx-50)/zoom, (posy+48)/zoom, (posx-2)/zoom, (posy+48)/zoom);
+        g.drawLine((posx-50)/zoom, (posy+49)/zoom, (posx-2)/zoom, (posy+49)/zoom);
+        g.drawLine((posx-50)/zoom, (posy+50)/zoom, (posx-2)/zoom, (posy+50)/zoom);
+
+        //south-west
+        g.setColor(edgeCheck(4,getI));
+        g.drawLine((posx-74)/zoom, (posy)/zoom, (posx-49)/zoom, (posy+50)/zoom);
+        g.drawLine((posx-75)/zoom, (posy)/zoom, (posx-50)/zoom, (posy+50)/zoom);
+        g.drawLine((posx-76)/zoom, (posy)/zoom, (posx-51)/zoom, (posy+50)/zoom);
+
+        //north-east
+        g.setColor(edgeCheck(5,getI));
+        g.drawLine((posx-51)/zoom, (posy-50)/zoom, (posx-76)/zoom, (posy)/zoom);
+        g.drawLine((posx-50)/zoom, (posy-50)/zoom, (posx-75)/zoom, (posy)/zoom);
+        g.drawLine((posx-49)/zoom, (posy-50)/zoom, (posx-74)/zoom, (posy)/zoom);
+
+
+    }
+
+    public Color edgeCheck(int edgeNumber, Hexagon hexagon) {
+
+        return switch (hexagon.getEdges().get(edgeNumber)) {
+            case "river" -> Color.cyan;
+            default -> Color.black;
+        };
+    }
+
+    public void playAITurn(Hexagon hexagon, ArrayList<Hexagon> hexagons) {
+
+        for (Hexagon hex : hexagons) {
+            int targetRow = hex.getRow(), targetCol = hex.getColumn();
+            int currentRow = hexagon.getRow(), currentCol = hexagon.getColumn();
+
+
+
+            if(hex.getDivisions().size() > 0 && hex.getDivisions().get(0).getSide().equals("second")) {
+                       if (mouselistener.isTrueColRow(currentCol, currentRow, targetRow, targetCol)) {
+                           damage(hexagon,hex);
+                }
+
+            }
+
+
+        }
+    }
+
+    public void damage(Hexagon curenthex, Hexagon attackhex) {
+            infoPanel.setHexDivisions(attackhex.getDivisions());
+
+            for (int i = 0; i < 2; i++) {
+                for (Divisions div : infoPanel.getHexDivisions()) {
+                    div.setSelected(true);
+                }
+                mouselistener.Attack(curenthex);
+            }
     }
 }

@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.ObjectInputStream;
@@ -6,6 +7,7 @@ import java.util.ArrayList;
 public class CameraKey implements KeyListener{
 
     private Camera camera = new Camera();
+    private JPanel panel;
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -38,6 +40,10 @@ public class CameraKey implements KeyListener{
 
         }
 
+        if(panel != null) {
+            panel.repaint();
+        }
+
         }
 
     @Override
@@ -51,5 +57,8 @@ public class CameraKey implements KeyListener{
 
     public Camera getCamera() {
         return camera;
+    }
+    public void addUpdate(JPanel panel) {
+        this.panel = panel;
     }
 }

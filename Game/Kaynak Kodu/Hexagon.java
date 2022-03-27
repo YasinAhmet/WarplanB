@@ -14,6 +14,7 @@ public class Hexagon {
     private int row = 1;
     private int column = 1;
     private String hextype = "null";
+    private ArrayList<String> edges = new ArrayList<>();
 
     private int x[] = {b-50-cameraX, b-cameraX, b+25-cameraX, b-cameraX, b-50-cameraX, b-75-cameraX, b-50-cameraX},
             y[] = {c-50-cameraY, c-50-cameraY, c-cameraY, c+50-cameraY, c+50-cameraY, c-cameraY, c-50-cameraY};
@@ -31,7 +32,43 @@ public class Hexagon {
         this.color = color;
         this.row = row;
         this.column = column;
+        edges("normal","normal","normal","normal","normal","normal");
     }
+
+    public void edges(String north, String northeast, String southeast, String south, String southwest, String northwest) {
+        this.edges.add(north);
+        this.edges.add(northeast);
+        this.edges.add(southeast);
+        this.edges.add(south);
+        this.edges.add(southwest);
+        this.edges.add(northwest);
+    }
+
+    public String north() {
+        return edges.get(0);
+    }
+
+    public String northeast() {
+        return edges.get(1);
+    }
+
+    public String southeast() {
+        return edges.get(2);
+    }
+
+    public String south() {
+        return edges.get(3);
+    }
+
+    public String southwest() {
+        return edges.get(4);
+    }
+
+    public String northwest() {
+        return edges.get(1);
+    }
+
+
 
     public int getColumn() {
         return column;
@@ -84,5 +121,12 @@ public class Hexagon {
 
     public Area getHexes() {
         return hexes;
+    }
+    public ArrayList<String> getEdges() {
+        return edges;
+    }
+
+    public void setEdges(ArrayList<String> edges) {
+        this.edges = edges;
     }
 }

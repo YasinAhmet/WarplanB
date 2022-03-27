@@ -1,6 +1,8 @@
 public class Main {
     public static void main(String[] args) {
-    Frame frame = new Frame();
-    frame.startFrame();
+    Menu menu = new Menu();
+    menu.setFrame();
     }
+
+
 }

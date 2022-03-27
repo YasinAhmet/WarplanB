@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Objects;
+import java.util.Random;
 
 public class Mouselistener implements MouseListener {
     private Camera camera;
@@ -9,6 +11,7 @@ public class Mouselistener implements MouseListener {
     private JPanel panel;
     private InfoPanel infoPanel;
     private Hexagon selectedHexagon, selectedHexagon2;
+    private static int result = 0;
 
     public void ms (JPanel panel, ArrayList<Hexagon> hexagons, Camera camera) {
         this.camera = camera;
@@ -30,7 +33,10 @@ public class Mouselistener implements MouseListener {
             camera.setZoom(2);
         } else if (e.getButton() == MouseEvent.BUTTON2 && camera.getZoom() == 2) {
             camera.setZoom(1);
+        } else if (e.getButton() == MouseEvent.BUTTON2 && camera.getZoom() == 4) {
+        camera.setZoom(1);
         }
+
 
         here:
         if (e.getButton() == MouseEvent.BUTTON1) {
@@ -53,6 +59,7 @@ public class Mouselistener implements MouseListener {
                 }
 
 
+
                 if (egetX >= hexgetx - (50/camera.getZoom()) && egetX <= hexgetx + (10/camera.getZoom()) &&
                         egetY >= hexgety - (50/camera.getZoom()) && egetY <= (hexgety + (10/camera.getZoom()))) {
 
@@ -60,26 +67,31 @@ public class Mouselistener implements MouseListener {
                         infoPanel.getHexDivisions().get(d).setSelected(false);
                     }
 
+                    if(selectedHexagon2 != null && selectedHexagon != null) {
+                        selectedHexagon2 = null; selectedHexagon = null;
+                    }
                     if(selectedHexagon == null) {
                         selectedHexagon = hex;
                     } else if (selectedHexagon2 == null) {
                         selectedHexagon2 = hex;
-                    } if (selectedHexagon2 != selectedHexagon && selectedHexagon2 != null) {
-                        selectedHexagon2 = null; selectedHexagon = null;
                     }
 
-
-
+                    infoPanel.currentHex = hex;
                     infoPanel.reformPanel(hex.getDivisions());
                     infoPanel.setHexX(hex.getRow());
                     infoPanel.setHexY(hex.getColumn());
 
-                    if(selectedHexagon == selectedHexagon2) {
-                        for (int g = 0; g < infoPanel.getHexDivisions().size(); g++) {
-                            infoPanel.getHexDivisions().get(g).setSelected(true);
-                        }
+                    if(selectedHexagon == selectedHexagon2 && selectedHexagon != null && selectedHexagon.getDivisions().size() > 0) {
+                        if(Objects.equals(selectedHexagon.getDivisions().get(0).getSide(), infoPanel.getInfoListener().getSide())) {
+                            for (int g = 0; g < infoPanel.getHexDivisions().size(); g++) {
+                                infoPanel.getHexDivisions().get(g).setSelected(true);
+                            }
 
-                        selectedHexagon2 = null; selectedHexagon = null;
+                            selectedHexagon2 = null;
+                            selectedHexagon = null;
+                        }
+                    } else if (selectedHexagon != null && selectedHexagon2 != null){
+                        selectedHexagon = null; selectedHexagon2 = null;
                     }
 
                     return;
@@ -133,53 +145,8 @@ public class Mouselistener implements MouseListener {
 
                     }
 
-                    // Saldırı
-                    if (infoPanel.getHexDivisions().size() > 0 && !infoPanel.getHexDivisions().get(0).getSide().equals(hex.getDivisions().get(0).getSide())) {
-                        if (!isTrueColRow(infoPanel.getHexY(), infoPanel.getHexX(),hex.getRow(), hex.getColumn())) {
-                            break here;
-                        }
+                    Attack(hex);
 
-                        int damage = 0;
-
-                        for (int i = 0; i < infoPanel.getHexDivisions().size(); i++) {
-                            Divisions getI = infoPanel.getHexDivisions().get(i);
-
-
-                            if (getI.isSelected() && getI.getMovementPoint() >= 10) {
-
-                                damage = damage + getI.getSaldırı()+(getI.getMen()/10);
-                                getI.setSelected(false);
-                                getI.setMovementPoint(getI.getMovementPoint() - 10);
-
-                                infoPanel.getHexDivisions().get(i).Division(getI.getDivisionImage(), getI.getMen(), getI.getMahiyet(), getI.getSaldırı(), getI.getSavunma(), getI.getDivisionBackground(), getI.getSide(), getI.getMovementPoint());
-
-                            }
-
-                        }
-
-                        int hexDefence = 0;
-                        if (hex.getHextype().equals("forrest")) {
-                            hexDefence = 4;
-                        } else if (hex.getHextype().equals("grassland")) {
-                            hexDefence = 2;
-                        } else if (hex.getHextype().equals("city")) {
-                            hexDefence = 6;
-                        }
-
-                            damage = damage / hex.getDivisions().size();
-                            for (int i = 0; i < hex.getDivisions().size(); i++) {
-
-                                hex.getDivisions().get(i).setMen(hex.getDivisions().get(i).getMen() - (damage - (hex.getDivisions().get(i).getSavunma() + hexDefence)));
-
-                                if (hex.getDivisions().get(i).getMen() <= 0) {
-                                    hex.getDivisions().remove(i);
-                                    i--;
-                                }
-                            }
-
-
-                        infoPanel.reformPanel(infoPanel.getHexDivisions());
-                    }
                 }
             }
 
@@ -212,6 +179,127 @@ public class Mouselistener implements MouseListener {
         }
 
         return false;
+    }
+
+    public int riverDetect(Hexagon targetHex, Hexagon currentHex) {
+        int targetRow = targetHex.getRow(), targetCol = targetHex.getColumn();
+        int currentRow = currentHex.getRow(), currentCol = currentHex.getColumn();
+
+        int row = 0, col = 0;
+
+        if(currentRow > targetRow) {
+            row = 1;
+        } else if (currentRow == targetRow) {
+            row = 2;
+        }
+
+        if(currentCol > targetCol) {
+            col = 1;
+        } else if (currentCol == targetCol) {
+            col = 2;
+        }
+
+        if(col == 1 && row == 2) {
+            result = 0;
+        }
+
+        else if (col == 1 && row == 0) {
+            result = 1;
+        }
+
+        else if (col == 2 && row == 0) {
+            result = 2;
+        }
+
+        else if (col == 0 && row == 2) {
+            result = 3;
+        }
+
+        else if (col == 0 && row == 1) {
+            result = 4;
+        }
+
+        else if (col == 2 && row == 1) {
+            result = 5;
+        }
+
+        if(currentHex.getEdges().get(result).equals("river")) {
+            return 1;
+        }
+         else {
+             return 0;
+        }
+
+    }
+
+    public int randomDamage(int damage) {
+        double dmg = (((Math.random()%(damage))+(damage/3))*20);
+        damage = (int)dmg;
+
+        return damage;
+    }
+
+    public void Attack(Hexagon hex) {
+        try {
+            // ATTACK ATTACK ATTACK ATTACK ATTACK ATTACK ATTACK ATTACK ATTACK ATTACK ATTACK ATTACK ATTACK ATTACK ATTACK ATTACK ATTACK ATTACK ATTACK ATTACK
+            if (infoPanel.getHexDivisions().size() > 0 && !infoPanel.getHexDivisions().get(0).getSide().equals(hex.getDivisions().get(0).getSide())) {
+                if (!isTrueColRow(infoPanel.getHexY(), infoPanel.getHexX(), hex.getRow(), hex.getColumn())) {
+                    System.out.println(2);
+                    return;
+                }
+
+                int damage = 0;
+
+                for (int i = 0; i < infoPanel.getHexDivisions().size(); i++) {
+                    Divisions getI = infoPanel.getHexDivisions().get(i);
+
+                    if (getI.isSelected() && getI.getMovementPoint() >= 10) {
+                        damage = randomDamage(getI.getSaldırı());
+                        getI.setSelected(false);
+                        getI.setMovementPoint(getI.getMovementPoint() - 10);
+
+                        infoPanel.getHexDivisions().get(i).Division(getI.getDivisionImage(), getI.getMen(), getI.getMahiyet(), getI.getSaldırı(), getI.getSavunma(), getI.getDivisionBackground(), getI.getSide(), getI.getMovementPoint());
+                    }
+
+                }
+
+                int hexDefence = 0;
+                if (hex.getHextype().equals("forrest")) {
+                    hexDefence += 1;
+                } else if (hex.getHextype().equals("city")) {
+                    hexDefence += 2;
+                }
+
+
+                int isThereRiver = riverDetect(hex, infoPanel.currentHex);
+
+                if (isThereRiver == 1) {
+                    hexDefence += 1;
+                }
+
+
+                damage = damage / hex.getDivisions().size();
+                for (int i = 0; i < hex.getDivisions().size(); i++) {
+                    int depot = hex.getDivisions().get(i).getMen();
+
+                    hex.getDivisions().get(i).setMen(hex.getDivisions().get(i).getMen() - ((damage+damage/3 - (randomDamage(hex.getDivisions().get(i).getSavunma() + hexDefence)))));
+
+                    if (hex.getDivisions().get(i).getMen() > depot) {
+                        hex.getDivisions().get(i).setMen(depot);
+                    }
+
+                    if (hex.getDivisions().get(i).getMen() <= 0) {
+                        hex.getDivisions().remove(i);
+                        i--;
+                    }
+                }
+
+
+                infoPanel.reformPanel(infoPanel.getHexDivisions());
+            }
+        } catch (IndexOutOfBoundsException e) {
+
+        }
     }
 
 }
