@@ -1,7 +1,3 @@
-north:normal,northeast:normal,southeast:normal,south:normal,southwest:river,northwest:river,col:3,row:14;
-north:normal,northeast:river,southeast:normal,south:normal,southwest:normal,northwest:normal,col:3,row:13;
-north:normal,northeast:river,southeast:river,south:normal,southwest:normal,northwest:normal,col:2,row:13;
-north:normal,northeast:normal,southeast:normal,south:normal,southwest:river,northwest:river,col:2,row:14;
-north:normal,northeast:normal,southeast:normal,south:normal,southwest:river,northwest:normal,col:2,row:14;
+north:normal,northeast:normal,southeast:normal,south:normal,southwest:river,northwest:river,col:3,row:5;
 
 

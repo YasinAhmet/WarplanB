@@ -1,7 +1,1 @@
-side:second,photo:unit/german.png,men:100,attack:10,defence:5,morale:A,row:2,col:2;
-side:second,photo:unit/german.png,men:100,attack:10,defence:5,morale:A,row:2,col:2;
-side:second,photo:unit/german.png,men:100,attack:10,defence:5,morale:A,row:2,col:2;
-side:first,photo:unit/russian.png,men:150,attack:10,defence:5,morale:B,row:3,col:2;
-side:first,photo:unit/russian.png,men:150,attack:10,defence:5,morale:B,row:3,col:2;
-side:first,photo:unit/russian.png,men:150,attack:10,defence:5,morale:B,row:3,col:2;
 saveside:first;
