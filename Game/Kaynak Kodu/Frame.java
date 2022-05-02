@@ -19,10 +19,7 @@ public class Frame extends JFrame {
         add(panel);
         add(panel.getInfoPanel());
 
-        toolbar.setBar();
-        toolbar.getButton().addActionListener(this::NextTurn);
-        toolbar.getButtonSave().addActionListener(this::Save);
-        add(toolbar, BorderLayout.NORTH);
+        useToolbar();
 
         JPanel panel2 = new JPanel();
         panel2.setBackground(new Color(24,154,180));
@@ -33,6 +30,13 @@ public class Frame extends JFrame {
         requestFocusInWindow();
         setDefaultCloseOperation(Close());
 
+    }
+
+    public void useToolbar() {
+        toolbar.setBar();
+        toolbar.getButton().addActionListener(this::NextTurn);
+        toolbar.getButtonSave().addActionListener(this::Save);
+        add(toolbar, BorderLayout.NORTH);
     }
 
     public void startFrame(String div, String map, String edge) {

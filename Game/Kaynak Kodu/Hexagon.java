@@ -44,6 +44,34 @@ public class Hexagon {
         this.edges.add(northwest);
     }
 
+    public char hexGetTypeInChar() {
+        if(hextype.equals("desert")) {
+            return 'd';
+        }
+
+        else if (hextype.equals("forrest")) {
+            return 'c';
+        }
+
+        else if (hextype.equals("grassland")) {
+            return 'g';
+        }
+
+        else if (hextype.equals("sea")) {
+            return 's';
+        }
+
+        else if (hextype.equals("city")) {
+            return  'k';
+        }
+
+        else if (hextype.equals("empty")) {
+            return 'e';
+        }
+
+        return hextype.charAt(0);
+    }
+
     public String north() {
         return edges.get(0);
     }
@@ -65,9 +93,12 @@ public class Hexagon {
     }
 
     public String northwest() {
-        return edges.get(1);
+        return edges.get(5);
     }
 
+    public void edit(int i, String string) {
+        edges.set(i, string);
+    }
 
 
     public int getColumn() {
@@ -76,6 +107,14 @@ public class Hexagon {
 
     public int getRow() {
         return row;
+    }
+
+    public void setRow(int row) {
+        this.row = row;
+    }
+
+    public void setColumn(int column) {
+        this.column = column;
     }
 
     public void setHextype(String hextype) {

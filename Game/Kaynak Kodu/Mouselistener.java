@@ -9,8 +9,9 @@ public class Mouselistener implements MouseListener {
     private Camera camera;
     private ArrayList<Hexagon> hexagonArrayList;
     private JPanel panel;
-    private InfoPanel infoPanel;
+    private InfoPanel infoPanel; private FirstPanel firstPanel;
     private Hexagon selectedHexagon, selectedHexagon2;
+    public Hexagon hex;
     private static int result = 0;
 
     public void ms (JPanel panel, ArrayList<Hexagon> hexagons, Camera camera) {
@@ -40,6 +41,10 @@ public class Mouselistener implements MouseListener {
 
         here:
         if (e.getButton() == MouseEvent.BUTTON1) {
+            if(hexagonArrayList == null) {
+                hexagonArrayList = this.firstPanel.getHexagons();
+            }
+
             for (int i = 0; i < hexagonArrayList.size(); i++) {
                 Hexagon hex = hexagonArrayList.get(i);
 
@@ -76,6 +81,7 @@ public class Mouselistener implements MouseListener {
                         selectedHexagon2 = hex;
                     }
 
+                    this.hex = hex;
                     infoPanel.currentHex = hex;
                     infoPanel.reformPanel(hex.getDivisions());
                     infoPanel.setHexX(hex.getRow());
@@ -168,6 +174,10 @@ public class Mouselistener implements MouseListener {
 
     }
 
+    public void setFirstPanel(FirstPanel firstPanel) {
+        this.firstPanel = firstPanel;
+    }
+
     public void setInfoPanel(InfoPanel infoPanel) {
         this.infoPanel = infoPanel;
     }
@@ -223,7 +233,7 @@ public class Mouselistener implements MouseListener {
             result = 5;
         }
 
-        if(currentHex.getEdges().get(result).equals("river")) {
+        if(currentHex.getEdges().get(result).equals("river") || currentHex.getEdges().get(result).equals("empty")) {
             return 1;
         }
          else {

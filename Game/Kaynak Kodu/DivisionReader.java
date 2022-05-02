@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class DivisionReader {
-    private TemplateReader tmp = new TemplateReader();
+    public TemplateReader tmp = new TemplateReader();
     private File hexFile;
     private Scanner scanner;
     private ArrayList<Divisions> divisions;

@@ -1,7 +1,7 @@
 import javax.swing.JFrame;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.ActionEvent;
+import java.io.File;
 
 public class Menu extends JFrame {
     private final MenuPanel panel = new MenuPanel();
@@ -14,15 +14,11 @@ public class Menu extends JFrame {
         toolbar.setBar();
 
         toolbar.getButton().setText("Start Scenario");
-        MenuListener menuListener1 = new MenuListener();
-        menuListener1.setAll(1,this,panel);
-        toolbar.getButton().addMouseListener(menuListener1);
+        toolbar.getButton().addActionListener(this::StartGame);
 
 
-        toolbar.remove(toolbar.getButtonSave());
-        //toolbar.getButtonSave().setText("Start Map Editor");
-        //MenuListener replicaListener = menuListener1;
-        //replicaListener.setAll(2,this,panel);
+        toolbar.getButtonSave().setText("Start Map Editor");
+        toolbar.getButtonSave().addActionListener(this::StartEditor);
 
         add(toolbar, BorderLayout.NORTH);
         panel.setPanel();
@@ -33,6 +29,14 @@ public class Menu extends JFrame {
         setVisible(true);
     }
 
+    public void StartGame(ActionEvent e) {
+        StartGame(panel.getTextFieldText(),panel.getTextField2Text(),panel.getTextField3Text());
+    }
+
+    public void StartEditor(ActionEvent actionEvent) {
+        StartEditor(panel.getTextFieldText(),panel.getTextField2Text(),panel.getTextField3Text());
+    }
+
     public void StartGame(String divisionloc, String maploc, String edgeloc) {
         Frame frame = new Frame();
         frame.startFrame(divisionloc, maploc, edgeloc);
@@ -41,7 +45,16 @@ public class Menu extends JFrame {
     }
 
     public void StartEditor(String divisionloc, String maploc, String edgeloc) {
+        Editor editor = new Editor();
 
+        FirstPanel firstPanel = new FirstPanel();
+        firstPanel.setupy = 0;
+        firstPanel.startPanel(divisionloc, maploc, edgeloc);
+
+        editor.setlocs(maploc, divisionloc, edgeloc);
+        editor.startEditor(firstPanel);
+        editor.maploc = maploc;
+        dispose();
     }
 
 

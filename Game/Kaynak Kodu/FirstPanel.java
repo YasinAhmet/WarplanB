@@ -5,29 +5,30 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class FirstPanel extends JPanel {
-    private String divlocation;
-    private String maplocation;
-    private String edgelocation;
-    private String location;
-    private final int Width = 1000;
-    private final int Height = 680;
+    public String divlocation;
+    public String maplocation;
+    public String edgelocation;
+    public String location;
+    private int Width = 1000;
+    private int Height = 680;
+    public int setupy = 35;
     private final Color panelColor = new Color(23, 88, 52);
 
-    private CameraKey cameraKey;
-    private Mouselistener mouselistener = new Mouselistener();
+    public CameraKey cameraKey;
+    public Mouselistener mouselistener;
 
     private Timer timer;
-    private int hexagonCreationX = 0;
-    private int hexagonCreationY = 0;
+    public int hexagonCreationX = 0;
+    public int hexagonCreationY = 0;
     private ArrayList<Hexagon> hexagons;
     private int hexagonAddingRoute = 1;
-    private ArrayList<String> lines;
+    private ArrayList<String> lines = new ArrayList<>();
 
     private ImageIcon img = new ImageIcon("unit\\untitled.png");
     private ImageIcon NatoINF = new ImageIcon("unit\\untitled.png");
 
-    private DivisionReader divisionReader;
-    private ArrayList<Divisions> divisions;
+    public DivisionReader divisionReader;
+    private ArrayList<Divisions> divisions = new ArrayList<>();
     private String clientSide = "first";
     private HexagonReader hexagonReader;
     private DivisionWriter divisionWriter;
@@ -36,24 +37,24 @@ public class FirstPanel extends JPanel {
     private final InfoPanel infoPanel = new InfoPanel();
 
 
-    private void setup() {
-        setBounds(0, 35, Width, Height);
+    public void setup() {
+        setBounds(0, setupy, Width, Height);
         setBackground(panelColor);
         setVisible(true);
     }
 
-    private void usePhotos() {
+    public void usePhotos() {
         img = new ImageIcon(location+"\\unit\\untitled.png");
         NatoINF = new ImageIcon(location+"\\unit\\untitled.png");
         infoPanel.setBackground(location+"\\unit\\infoPanelBackground.png");
     }
 
-    private void useCamera() {
+    public void useCamera() {
         cameraKey = new CameraKey();
         cameraKey.setCamera(new Camera());
     }
 
-    private void useDivisionReader() {
+    public void useDivisionReader() {
         divisionReader = new DivisionReader();
         divisionReader.setHexFile(new File(divlocation));
         divisionReader.setDivReader(divlocation);
@@ -62,12 +63,12 @@ public class FirstPanel extends JPanel {
 
     }
 
-    private void useTimer() {
+    public void useTimer() {
         timer = new Timer(17, this::Repainting);
         timer.start();
     }
 
-    private void useLocation(String div, String map, String edge) {
+    public void useLocation(String div, String map, String edge) {
         location = FirstPanel.class.getProtectionDomain().getCodeSource().getLocation().getPath();
         location = (new File(location)).getParentFile().getPath();
 
@@ -76,7 +77,7 @@ public class FirstPanel extends JPanel {
         edgelocation = location+"\\data\\"+edge+".txt";
     }
 
-    private void startingGameObjects() {
+    public void startingGameObjects() {
         hexagons = new ArrayList<>();
     }
 
@@ -88,33 +89,38 @@ public class FirstPanel extends JPanel {
         lines = hexagonReader.getLines();
     }
 
-    public void addHexagon() {
+    public Hexagon addJustOneHex () {
+        Hexagon hexagon = new Hexagon();
+        hexagon.setHexagonX(hexagonCreationX);
+        hexagon.setHexagonY(hexagonCreationY);
 
+        hexagon.setX(hexagon.getX(), hexagon.getHexagonX(), cameraKey.getCamera().getZoom());
+        hexagon.setY(hexagon.getY(), hexagon.getHexagonY(), cameraKey.getCamera().getZoom());
+        hexagon.setColor(Color.gray);
+
+        if (hexagonAddingRoute == 1) {
+            hexagonCreationY = hexagonCreationY + 51;
+            hexagonCreationX = hexagonCreationX + 78;
+            hexagonAddingRoute++;
+        } else if (hexagonAddingRoute == 2) {
+            hexagonCreationX = hexagonCreationX + 78;
+            hexagonCreationY = hexagonCreationY - 51;
+            hexagonAddingRoute++;
+        } else if (hexagonAddingRoute == 3) {
+            hexagonCreationY = hexagonCreationY + 51;
+            hexagonCreationX = hexagonCreationX + 78;
+            hexagonAddingRoute = 2;
+        }
+
+        return hexagon;
+    }
+
+    public void addHexagons() {
+        hexagons = new ArrayList<>();
 
         for (String line : lines) {
             for (int i = 0; i < line.length(); i++) {
-                Hexagon hexagon = new Hexagon();
-                hexagon.setHexagonX(hexagonCreationX);
-                hexagon.setHexagonY(hexagonCreationY);
-
-                hexagon.setX(hexagon.getX(), hexagon.getHexagonX(), cameraKey.getCamera().getZoom());
-                hexagon.setY(hexagon.getY(), hexagon.getHexagonY(), cameraKey.getCamera().getZoom());
-                hexagon.setColor(Color.gray);
-
-                if (hexagonAddingRoute == 1) {
-                    hexagonCreationY = hexagonCreationY + 51;
-                    hexagonCreationX = hexagonCreationX + 78;
-                    hexagonAddingRoute++;
-                } else if (hexagonAddingRoute == 2) {
-                    hexagonCreationX = hexagonCreationX + 78;
-                    hexagonCreationY = hexagonCreationY - 51;
-                    hexagonAddingRoute++;
-                } else if (hexagonAddingRoute == 3) {
-                    hexagonCreationY = hexagonCreationY + 51;
-                    hexagonCreationX = hexagonCreationX + 78;
-                    hexagonAddingRoute = 2;
-                }
-
+                Hexagon hexagon = addJustOneHex();
 
                 if (line.charAt(i) == 'd') {
                     hexagon.setHextype("desert");
@@ -126,6 +132,8 @@ public class FirstPanel extends JPanel {
                     hexagon.setHextype("sea");
                 } else if (line.charAt(i) == 'k') {
                     hexagon.setHextype("city");
+                } else if (line.charAt(i) == 'e') {
+                    hexagon.setHextype("empty");
                 }
 
                 hexagon.hexagon(hexagon.getX(), hexagon.getY(), hexagon.getHexagonX(), hexagon.getHexagonY(), Color.gray, i, column);
@@ -135,17 +143,12 @@ public class FirstPanel extends JPanel {
                     for (int g = 0; g < divisions.size(); g++) {
 
                         if (divisions.get(g).getRow() == hexagon.getRow() && divisions.get(g).getColumn() == hexagon.getColumn()) {
-
-                            //if (divisions.get(g).getSide().equals("first")) {
-                            //    divisions.get(g).setDivisionBackground(GermanINF);
-                            //} else if (divisions.get(g).getSide().equals("second")) {
-                            //    divisions.get(g).setDivisionBackground(SovietINF);
-                            //}
-
                             addDivisions(hexagon, divisions.get(g).getMen(), divisions.get(g).getMahiyet(), divisions.get(g).getSaldırı(), divisions.get(g).getSavunma(), divisions.get(g).getSide(), divisions.get(g).getDivisionBackground());
                         }
                     }
                 }
+
+
                 hexagons.add(hexagon);
             }
 
@@ -167,14 +170,16 @@ public class FirstPanel extends JPanel {
     }
 
     public void useMouseListener(InfoPanel infoPanel) {
+        mouselistener = new Mouselistener();
+        mouselistener.setFirstPanel(this);
         mouselistener.ms(this, hexagons, cameraKey.getCamera());
 
         mouselistener.setInfoPanel(infoPanel);
         addMouseListener(mouselistener);
+
     }
 
     public void useInfoPanel() {
-
         clientSide = divisionReader.getSide();
         infoPanel.setPanel(clientSide);
     }
@@ -197,7 +202,7 @@ public class FirstPanel extends JPanel {
 
         useMouseListener(infoPanel);
 
-        addHexagon();
+        addHexagons();
         useHexData();
         useDivisionWriter();
     }
@@ -241,6 +246,11 @@ public class FirstPanel extends JPanel {
                 k++;
             }
 
+
+            if(getI.equals(mouselistener.hex)) {
+                g.setColor(new Color(150,30,5));
+                g.drawPolygon(getI.getX(), getI.getY(), 6);
+            }
 
         }
 
@@ -331,7 +341,6 @@ public class FirstPanel extends JPanel {
     }
 
     public void Save() {
-
         divisionWriter.writeItAll(divisions, clientSide);
 
     }
@@ -357,6 +366,10 @@ public class FirstPanel extends JPanel {
         }
         if (getI.getHextype().equals("city")) {
             g.setColor(Color.gray);
+            g.fillPolygon(getI.getX(), getI.getY(), 6);
+        }
+        if (getI.getHextype().equals("empty")) {
+            g.setColor(Color.black);
             g.fillPolygon(getI.getX(), getI.getY(), 6);
         }
         g.setColor(getI.getColor());
@@ -446,5 +459,9 @@ public class FirstPanel extends JPanel {
                 }
                 mouselistener.Attack(curenthex);
             }
+    }
+
+    public ArrayList<Hexagon> getHexagons() {
+        return hexagons;
     }
 }
