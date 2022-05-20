@@ -12,6 +12,7 @@ public class Hexagon {
     private int cameraX = 0;
     private int cameraY = 0;
     private int row = 1;
+    public String hexthing = "null";
     private int column = 1;
     private String hextype = "null";
     private ArrayList<String> edges = new ArrayList<>();
@@ -70,6 +71,36 @@ public class Hexagon {
         }
 
         return hextype.charAt(0);
+    }
+
+    public boolean hasEdge() {
+        String thing = "river";
+
+        if(north().equals(thing)) {
+            return true;
+        }
+
+        else if (northeast().equals(thing)){
+            return true;
+        }
+
+        else if (southeast().equals(thing)){
+            return true;
+        }
+
+        else if (south().equals(thing)){
+            return true;
+        }
+
+        else if (southwest().equals(thing)){
+            return true;
+        }
+
+        else if (northwest().equals(thing)){
+            return true;
+        }
+
+        return false;
     }
 
     public String north() {

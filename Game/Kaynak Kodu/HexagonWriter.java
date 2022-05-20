@@ -17,9 +17,11 @@ public class HexagonWriter {
                 if(hexagons.get(i).getColumn() > line) {
                     line++;
                     writer.write("\n");
+                    System.out.println();
                 }
 
                 writer.write(hexagons.get(i).hexGetTypeInChar());
+                System.out.print(hexagons.get(i).hexGetTypeInChar());
             }
 
             writer.close();

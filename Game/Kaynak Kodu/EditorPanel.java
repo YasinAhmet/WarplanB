@@ -57,7 +57,8 @@ public class EditorPanel extends JPanel {
     }
 
     public void HexEvent(ActionEvent a) {
-        AddHex(new File(firstPanel.maplocation));
+        firstPanel.mouselistener.hex.setHextype(JOptionPane.showInputDialog("Insert Hex Type"));
+        //AddHex(new File(firstPanel.maplocation));
     }
 
     public void EdgeEvent(ActionEvent e) {
@@ -73,9 +74,14 @@ public class EditorPanel extends JPanel {
             return;
         }
 
+        division.setColumn(firstPanel.mouselistener.hex.getColumn());
+        division.setRow(firstPanel.mouselistener.hex.getRow());
+
         firstPanel.mouselistener.hex.addDivision(division);
         divisions.add(division);
     }
+
+    /* OLD HEX THING
 
     public void AddHex(File maploc) {
         try {
@@ -91,13 +97,14 @@ public class EditorPanel extends JPanel {
                 if(z == hex.getColumn()) {
                     for(int i = 0; i < hex.getRow(); i++) {
                         scanfile.readByte();
+                        scanfile.write(String.valueOf(hex.hexGetTypeInChar()).getBytes());
                     }
 
-                    if(scanfile.length() == hex.getColumn()) {
+                    if(scanfile.length() == hex.getColumn()-1) {
                     scanfile.write("\n".getBytes());
                     }
 
-                    setPastHexes(hex, scanfile);
+                    //setPastHexes(hex, scanfile);
                     scanfile.write(String.valueOf(hex.hexGetTypeInChar()).getBytes());
                 }
 
@@ -140,6 +147,8 @@ public class EditorPanel extends JPanel {
 
 
     }
+
+     */
 
     public void AddRiver(Mouselistener mouselistener) {
         Hexagon hex = firstPanel.mouselistener.hex;

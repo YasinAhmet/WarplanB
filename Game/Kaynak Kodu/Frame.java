@@ -5,19 +5,23 @@ import java.awt.event.ActionEvent;
 public class Frame extends JFrame {
     private final int Width = 1366;
     private final int Height = 720;
-    private final FirstPanel panel = new FirstPanel();
+    private final FirstPanel firstPanel = new FirstPanel();
     private final Toolbar toolbar = new Toolbar();
+    public HexagonWriter hexagonWriter = new HexagonWriter();
+    public DivisionWriter divisionWriter = new DivisionWriter();
+    public EdgeWriter edgewriter = new EdgeWriter();
 
     private void setup(String div, String map, String edge) {
+        firstPanel.master = this;
         setBackground(new Color(24, 154, 180));
         setSize(Width, Height);
         setVisible(true);
         setResizable(false);
         setBackground(new Color(24,154,180));
 
-        panel.startPanel(div, map, edge);
-        add(panel);
-        add(panel.getInfoPanel());
+        firstPanel.startPanel(div, map, edge);
+        add(firstPanel);
+        add(firstPanel.getInfoPanel());
 
         useToolbar();
 
@@ -26,7 +30,7 @@ public class Frame extends JFrame {
         panel2.setBounds(0,50,1366,20);
         add(panel2);
 
-        addKeyListener(panel.returnCameraKey());
+        addKeyListener(firstPanel.returnCameraKey());
         requestFocusInWindow();
         setDefaultCloseOperation(Close());
 
@@ -44,14 +48,21 @@ public class Frame extends JFrame {
     }
 
     public void NextTurn(ActionEvent e) {
-        panel.NextTurn(); requestFocusInWindow();
+        firstPanel.NextTurn(); requestFocusInWindow();
     }
     public void Save(ActionEvent e) {
-        panel.Save(); requestFocusInWindow();
+        Save(); requestFocusInWindow();
+    }
+
+    public void Save() {
+        hexagonWriter.Write(firstPanel.getHexagons(), firstPanel.maplocation);
+        edgewriter.Write(firstPanel.getHexagons(), firstPanel.edgelocation);
+        divisionWriter.Write(firstPanel.getDivisions(), firstPanel.divlocation);
     }
 
     public int Close() {
-        panel.Save();
+        System.out.println("Closing..");
+        Save();
         return EXIT_ON_CLOSE;
     }
 }

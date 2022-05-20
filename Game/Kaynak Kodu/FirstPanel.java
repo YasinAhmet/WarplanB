@@ -3,11 +3,14 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 
 public class FirstPanel extends JPanel {
+    public Frame master;
     public String divlocation;
     public String maplocation;
     public String edgelocation;
+    public boolean debugmod = true;
     public String location;
     private int Width = 1000;
     private int Height = 680;
@@ -102,14 +105,19 @@ public class FirstPanel extends JPanel {
             hexagonCreationY = hexagonCreationY + 51;
             hexagonCreationX = hexagonCreationX + 78;
             hexagonAddingRoute++;
-        } else if (hexagonAddingRoute == 2) {
+            hexagon.hexthing = "notmiddle";
+         }
+
+        else if (hexagonAddingRoute == 2) {
             hexagonCreationX = hexagonCreationX + 78;
             hexagonCreationY = hexagonCreationY - 51;
             hexagonAddingRoute++;
+            hexagon.hexthing = "middle";
         } else if (hexagonAddingRoute == 3) {
             hexagonCreationY = hexagonCreationY + 51;
             hexagonCreationX = hexagonCreationX + 78;
             hexagonAddingRoute = 2;
+            hexagon.hexthing = "notmiddle";
         }
 
         return hexagon;
@@ -316,15 +324,19 @@ public class FirstPanel extends JPanel {
 
             for (Hexagon hexagon : hexagons) {
 
-                for (Divisions divisions : hexagon.getDivisions()) {
+                try {
+                    for (Divisions divisions : hexagon.getDivisions()) {
 
-                    if (divisions.getSide().equals("second")) {
-                        divisions.setMovementPoint(20);
-                        divisions.setSelected(false);
+                        if (divisions.getSide().equals("second")) {
+                            divisions.setMovementPoint(20);
+                            divisions.setSelected(false);
+                        }
+
+                        playAITurn(hexagon, hexagons);
+
                     }
-
-                    playAITurn(hexagon, hexagons);
-
+                } catch (ConcurrentModificationException e) {
+                    System.out.println("Sir unit go boom boom");
                 }
 
             }
@@ -332,17 +344,7 @@ public class FirstPanel extends JPanel {
             setClientSide("first");
         }
         infoPanel.repaint();
-        Save();
-
-    }
-
-    public String gelocation() {
-        return location;
-    }
-
-    public void Save() {
-        divisionWriter.writeItAll(divisions, clientSide);
-
+        master.Save();
     }
 
     public void drawHex(Graphics g, Hexagon getI) {
@@ -374,8 +376,12 @@ public class FirstPanel extends JPanel {
         }
         g.setColor(getI.getColor());
         g.drawPolygon(getI.getX(), getI.getY(), 6);
-
         drawedges(g,getI);
+
+        if(debugmod) {
+            g.drawString(getI.getColumn() + " " + getI.getRow(), (getI.getHexagonX()-45 - cameraKey.getCamera().getX()) / cameraKey.getCamera().getZoom(), (getI.getHexagonY()+30 - cameraKey.getCamera().getY()) / cameraKey.getCamera().getZoom());
+            g.drawString(getI.hexthing, (getI.getHexagonX()-45 - cameraKey.getCamera().getX()) / cameraKey.getCamera().getZoom(), (getI.getHexagonY() + 40 - cameraKey.getCamera().getY()) / cameraKey.getCamera().getZoom());
+        }
     }
 
     public void drawedges(Graphics g, Hexagon getI) {
@@ -437,12 +443,20 @@ public class FirstPanel extends JPanel {
             int targetRow = hex.getRow(), targetCol = hex.getColumn();
             int currentRow = hexagon.getRow(), currentCol = hexagon.getColumn();
 
+            if(hex.getDivisions().size() != 0 && hex.getDivisions().get(0).getSide().equals("second") && !((targetCol == currentCol)&&(targetRow == currentRow))) {
+                mouselistener.hex = hex;
+                infoPanel.currentHex = hex;
+                infoPanel.reformPanel(hex.getDivisions());
+                infoPanel.setHexX(hex.getRow());
+                infoPanel.setHexY(hex.getColumn());
 
+                System.out.println("Is it the true one: " + mouselistener.isTrueColRow(currentCol, currentRow, targetRow, targetCol, hex));
+                System.out.println("CurrentPanel: " + currentCol + " " + currentRow);
+                System.out.println("TargetPanel: " + targetCol + " " + targetRow);
 
-            if(hex.getDivisions().size() > 0 && hex.getDivisions().get(0).getSide().equals("second")) {
-                       if (mouselistener.isTrueColRow(currentCol, currentRow, targetRow, targetCol)) {
-                           damage(hexagon,hex);
-                }
+                        if (mouselistener.isTrueColRow(currentCol, currentRow, targetRow, targetCol, hexagon)) {
+                            damage(hexagon,hex);
+                        }
 
             }
 

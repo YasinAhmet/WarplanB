@@ -1,15 +1,19 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class Editor extends JFrame{
     public String maploc, divloc, edgeloc;
     public FirstPanel firstPanel;
     public Mouselistener mouselistener = new Mouselistener();
     public HexagonWriter hexagonWriter = new HexagonWriter();
+    public DivisionWriter divisionWriter = new DivisionWriter();
+    public EdgeWriter edgewriter = new EdgeWriter();
     public EditorPanel editorPanel;
     public CameraKey listener;
-    private final Toolbar toolbar = new Toolbar();
+    public WindowAdapter windowAdapter;
 
     public void startEditor(FirstPanel firstPanel) {
         this.setBounds(0,0,1285,719);
@@ -31,12 +35,19 @@ public class Editor extends JFrame{
         listener = firstPanel.returnCameraKey();
         addKeyListener(listener);
         requestFocusInWindow();
-        setDefaultCloseOperation(Close());
+
+        useWindowAdapter();
+        addWindowListener(windowAdapter);
     }
 
-    public void useToolbar() {
-        toolbar.setBar();
-        add(toolbar, BorderLayout.NORTH);
+    public void useWindowAdapter() {
+        windowAdapter = new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                Close();
+                System.exit(0);
+            }
+        };
     }
 
     public void refreshPanel() {
@@ -52,12 +63,18 @@ public class Editor extends JFrame{
     }
 
     public int Close() {
+        System.out.println("Closing..");
         hexagonWriter.Write(firstPanel.getHexagons(), firstPanel.maplocation);
-        firstPanel.Save();
+        edgewriter.Write(firstPanel.getHexagons(), firstPanel.edgelocation);
+        divisionWriter.Write(firstPanel.getDivisions(), firstPanel.divlocation);
         return EXIT_ON_CLOSE;
     }
 
     public void setlocs(String map, String div, String edge) {
         maploc = map; divloc = div; edgeloc = edge;
+    }
+
+    public void windowClosing(WindowEvent evt) {
+        Close();
     }
 }

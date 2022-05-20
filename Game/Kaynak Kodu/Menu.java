@@ -51,6 +51,7 @@ public class Menu extends JFrame {
         firstPanel.setupy = 0;
         firstPanel.startPanel(divisionloc, maploc, edgeloc);
 
+        editor.addMouseListener(firstPanel.mouselistener);
         editor.setlocs(maploc, divisionloc, edgeloc);
         editor.startEditor(firstPanel);
         editor.maploc = maploc;

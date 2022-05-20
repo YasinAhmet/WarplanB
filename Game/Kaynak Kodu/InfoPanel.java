@@ -25,6 +25,10 @@ public class InfoPanel extends JPanel {
 
     }
 
+    public Hexagon getHex() {
+        return currentHex;
+    }
+
     public void setPanel(String side) {
         infoListener.setSide(side);
         setBounds(1000,35,366,680);
@@ -82,18 +86,20 @@ public class InfoPanel extends JPanel {
 
             g.drawRect(29, 29+h, 307, 81);
             hexDivisions.get(i).getDivisionBackground().paintIcon(this,g,30,30+h);
+
+            g.setColor(new Color(15,15,60,80));
+            g.fillRect(30,30+h,306,79);
+
             hexDivisions.get(i).getDivisionImage().paintIcon(this,g,30,30+h);
 
 
 
             g.setFont(f);
 
-                g.setColor(new Color(0, 0, 0));
+                g.setColor(new Color(115, 225, 225, 255));
                 g.drawString("Movement point: ", 80, 40 + h);
                 g.drawString("" + hexDivisions.get(i).getMovementPoint(), 80, 50 + h);
                 g.drawString("Defense: " + hexDivisions.get(i).getSavunma(), 35, 70 + h);
-
-                g.setColor(new Color(255, 255, 255));
                 g.drawString("Attack: " + hexDivisions.get(i).getSaldırı(), 35, 82 + h);
                 g.drawString("Quality: " + hexDivisions.get(i).getMahiyet(), 35, 94 + h);
                 g.drawString("Quantity: " + hexDivisions.get(i).getMen(), 35, 106 + h);

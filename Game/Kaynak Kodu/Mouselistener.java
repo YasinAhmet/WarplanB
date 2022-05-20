@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -41,15 +42,18 @@ public class Mouselistener implements MouseListener {
 
         here:
         if (e.getButton() == MouseEvent.BUTTON1) {
-            if(hexagonArrayList == null) {
                 hexagonArrayList = this.firstPanel.getHexagons();
-            }
 
             for (int i = 0; i < hexagonArrayList.size(); i++) {
                 Hexagon hex = hexagonArrayList.get(i);
 
                 int hexgetx = (hex.getHexagonX() - camera.getX()) / camera.getZoom();
                 int hexgety = (hex.getHexagonY() - camera.getY()) / camera.getZoom();
+
+                Polygon Poli = new Polygon();
+                Poli.xpoints = hex.getX();
+                Poli.ypoints = hex.getY();
+                Poli.npoints = 6;
 
                 if (hex.getHexagonX() - camera.getX() < -100 / camera.getZoom()) {
                     continue;
@@ -65,8 +69,7 @@ public class Mouselistener implements MouseListener {
 
 
 
-                if (egetX >= hexgetx - (50/camera.getZoom()) && egetX <= hexgetx + (10/camera.getZoom()) &&
-                        egetY >= hexgety - (50/camera.getZoom()) && egetY <= (hexgety + (10/camera.getZoom()))) {
+                if (Poli.contains(e.getX(), e.getY())) {
 
                     for (int d = 0; d < infoPanel.getHexDivisions().size(); d++) {
                         infoPanel.getHexDivisions().get(d).setSelected(false);
@@ -129,18 +132,26 @@ public class Mouselistener implements MouseListener {
 
                     if (hex.getDivisions().size() <= 0 || hex.getDivisions().get(0).getSide().equals(infoPanel.getHexDivisions().get(0).getSide())) {
 
-                        if (!isTrueColRow(infoPanel.getHexY(), infoPanel.getHexX(),hex.getRow(), hex.getColumn()) || hex.getHextype().equals("sea")) {
+                        if (!isTrueColRow(infoPanel.getHexY(), infoPanel.getHexX(),hex.getRow(), hex.getColumn(), infoPanel.getHex()) || hex.getHextype().equals("sea")) {
                             break here;
                         }
 
                         for (int i = infoPanel.getHexDivisions().size() - 1; i >= 0; i--) {
-
                             if (infoPanel.getHexDivisions().get(i).isSelected() && infoPanel.getHexDivisions().get(i).getMovementPoint() >= 5) {
 
                                 infoPanel.getHexDivisions().get(i).setMovementPoint(infoPanel.getHexDivisions().get(i).getMovementPoint() - 5);
                                 hex.addDivision(infoPanel.getHexDivisions().get(i));
                                 infoPanel.getHexDivisions().remove(i);
 
+                                this.hex = hex;
+                                infoPanel.currentHex = hex;
+                                infoPanel.reformPanel(hex.getDivisions());
+                                infoPanel.setHexX(hex.getRow());
+                                infoPanel.setHexY(hex.getColumn());
+
+                                for(Divisions div : infoPanel.getHexDivisions()) {
+                                    div.setSelected(true);
+                                }
                             }
 
                         }
@@ -182,10 +193,51 @@ public class Mouselistener implements MouseListener {
         this.infoPanel = infoPanel;
     }
 
-    public boolean isTrueColRow(int col, int row, int row2, int col2) {
+    public boolean isTrueColRow(int col, int row, int row2, int col2, Hexagon hex) {
 
-        if ((row+1 == row2 || row == row2 || row-1 == row2) && (col+1 == col2 || col == col2 || col-1 == col2)) {
-         return true;
+        if(col == col2+1 && row+2 > row2) {
+            //Top of the hex
+
+            if(row == row2-1 && hex.hexthing.equals("notmiddle")) {
+                return true;
+            }
+
+            else if (row == row2+1 && hex.hexthing.equals("notmiddle")) {
+                return true;
+            }
+
+            else if (row == row2) {
+                return true;
+            }
+        }
+
+        if(col == col2) {
+            //Same line of hex
+            System.out.println("same line: " + col + " " + col2);
+
+            if(row == row2+1) {
+                return true;
+            }
+
+            else if(row == row2-1) {
+                return true;
+            }
+        }
+
+        if(col == col2-1 && row+2 > row2) {
+            //Bottom of the hex
+
+            if(row == row2-1 && hex.hexthing.equals("middle")) {
+                return true;
+            }
+
+            else if (row == row2+1 && hex.hexthing.equals("middle")) {
+                return true;
+            }
+
+            else if (row == row2) {
+                return true;
+            }
         }
 
         return false;
@@ -242,18 +294,32 @@ public class Mouselistener implements MouseListener {
 
     }
 
-    public int randomDamage(int damage) {
-        double dmg = (((Math.random()%(damage))+(damage/3))*20);
+    public int randomDamage(int damage, Divisions division) {
+        double dmg = (((Math.random()%(damage))+(damage/useQuality(division.getMahiyet())))*10);
         damage = (int)dmg;
 
         return damage;
+    }
+
+    public int useQuality(char q) {
+        if(q == 'A') {
+            return 4;
+        } else if (q == 'B') {
+            return 3;
+        } else if (q == 'C') {
+            return 2;
+        } else if (q == 'D') {
+            return 1;
+        }
+
+        return 0;
     }
 
     public void Attack(Hexagon hex) {
         try {
             // ATTACK ATTACK ATTACK ATTACK ATTACK ATTACK ATTACK ATTACK ATTACK ATTACK ATTACK ATTACK ATTACK ATTACK ATTACK ATTACK ATTACK ATTACK ATTACK ATTACK
             if (infoPanel.getHexDivisions().size() > 0 && !infoPanel.getHexDivisions().get(0).getSide().equals(hex.getDivisions().get(0).getSide())) {
-                if (!isTrueColRow(infoPanel.getHexY(), infoPanel.getHexX(), hex.getRow(), hex.getColumn())) {
+                if (!isTrueColRow(infoPanel.getHexY(), infoPanel.getHexX(), hex.getRow(), hex.getColumn(), infoPanel.getHex())) {
                     System.out.println(2);
                     return;
                 }
@@ -263,8 +329,9 @@ public class Mouselistener implements MouseListener {
                 for (int i = 0; i < infoPanel.getHexDivisions().size(); i++) {
                     Divisions getI = infoPanel.getHexDivisions().get(i);
 
+                    System.out.println(getI.isSelected() + " " + getI.getMovementPoint());
                     if (getI.isSelected() && getI.getMovementPoint() >= 10) {
-                        damage = randomDamage(getI.getSaldırı());
+                        damage = randomDamage(getI.getSaldırı(), getI);
                         getI.setSelected(false);
                         getI.setMovementPoint(getI.getMovementPoint() - 10);
 
@@ -275,9 +342,9 @@ public class Mouselistener implements MouseListener {
 
                 int hexDefence = 0;
                 if (hex.getHextype().equals("forrest")) {
-                    hexDefence += 1;
+                    hexDefence = 1;
                 } else if (hex.getHextype().equals("city")) {
-                    hexDefence += 2;
+                    hexDefence = 2;
                 }
 
 
@@ -292,7 +359,7 @@ public class Mouselistener implements MouseListener {
                 for (int i = 0; i < hex.getDivisions().size(); i++) {
                     int depot = hex.getDivisions().get(i).getMen();
 
-                    hex.getDivisions().get(i).setMen(hex.getDivisions().get(i).getMen() - ((damage+damage/3 - (randomDamage(hex.getDivisions().get(i).getSavunma() + hexDefence)))));
+                    hex.getDivisions().get(i).setMen(hex.getDivisions().get(i).getMen() - ((damage+damage/3 - (randomDamage(hex.getDivisions().get(i).getSavunma() + hexDefence, hex.getDivisions().get(i))))));
 
                     if (hex.getDivisions().get(i).getMen() > depot) {
                         hex.getDivisions().get(i).setMen(depot);
