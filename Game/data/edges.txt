@@ -1,3 +1,15 @@
+north:normal,northeast:normal,southeast:river,south:normal,southwest:normal,northwest:normal,col:2,row:3;
+north:normal,northeast:normal,southeast:normal,south:river,southwest:normal,northwest:normal,col:2,row:4;
+north:normal,northeast:normal,southeast:normal,south:normal,southwest:river,northwest:normal,col:2,row:5;
+north:normal,northeast:normal,southeast:normal,south:river,southwest:normal,northwest:normal,col:2,row:10;
+north:normal,northeast:normal,southeast:river,south:river,southwest:river,northwest:normal,col:2,row:11;
+north:normal,northeast:normal,southeast:river,south:river,southwest:normal,northwest:normal,col:2,row:12;
+north:normal,northeast:normal,southeast:normal,south:normal,southwest:normal,northwest:river,col:2,row:13;
+north:normal,northeast:river,southeast:normal,south:normal,southwest:normal,northwest:normal,col:3,row:3;
+north:river,northeast:river,southeast:river,south:normal,southwest:river,northwest:river,col:3,row:4;
 north:normal,northeast:normal,southeast:normal,south:normal,southwest:river,northwest:river,col:3,row:5;
-
-
+north:normal,northeast:normal,southeast:river,south:normal,southwest:normal,northwest:normal,col:3,row:8;
+north:normal,northeast:normal,southeast:normal,south:normal,southwest:normal,northwest:river,col:3,row:9;
+north:river,northeast:river,southeast:river,south:normal,southwest:normal,northwest:normal,col:3,row:10;
+north:river,northeast:normal,southeast:normal,south:normal,southwest:normal,northwest:river,col:3,row:11;
+north:river,northeast:normal,southeast:normal,south:normal,southwest:normal,northwest:river,col:3,row:12;

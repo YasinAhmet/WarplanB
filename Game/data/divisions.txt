@@ -1,1 +1,14 @@
+side:first,photo:unit/russian.png,men:200,attack:5,defence:3,morale:B,row:5,col:0;
+side:first,photo:unit/russian.png,men:200,attack:5,defence:3,morale:B,row:5,col:1;
+side:first,photo:unit/russian.png,men:200,attack:5,defence:3,morale:B,row:6,col:1;
+side:first,photo:unit/russian.png,men:200,attack:5,defence:3,morale:B,row:7,col:1;
+side:second,photo:unit/german.png,men:100,attack:6,defence:3,morale:A,row:11,col:1;
+side:first,photo:unit/russian.png,men:200,attack:5,defence:3,morale:B,row:6,col:2;
+side:first,photo:unit/russian.png,men:200,attack:5,defence:3,morale:B,row:7,col:2;
+side:first,photo:unit/russian.png,men:200,attack:5,defence:3,morale:B,row:8,col:2;
+side:second,photo:unit/german.png,men:100,attack:6,defence:3,morale:A,row:12,col:2;
+side:second,photo:unit/german.png,men:100,attack:6,defence:3,morale:A,row:13,col:2;
+side:second,photo:unit/german.png,men:100,attack:6,defence:3,morale:A,row:9,col:3;
+side:second,photo:unit/german.png,men:100,attack:6,defence:3,morale:A,row:11,col:3;
+side:second,photo:unit/german.png,men:100,attack:6,defence:3,morale:A,row:13,col:3;
 saveside:first;

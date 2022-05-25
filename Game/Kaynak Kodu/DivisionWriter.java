@@ -7,18 +7,21 @@ public class DivisionWriter {
     private FileWriter writer;
     File file;
 
-    public void Write(ArrayList<Divisions> divs, String fileloc){
+    public void Write(ArrayList<Hexagon> hexagons, String fileloc){
         try {
             file = new File(fileloc);
             writer = new FileWriter(file);
 
-            for (int d = 0; d < divs.size(); d++) {
-                Divisions div = divs.get(d);
+            for(Hexagon hex : hexagons) {
+                ArrayList<Divisions> divs = hex.getDivisions();
 
-                writer.write("side:" + div.getSide() + ",photo:" + div.getImgpath() + ",men:" + div.getMen() + ",attack:" +
-                        div.getSaldırı() + ",defence:" + div.getSavunma() + ",morale:" +
-                        div.getMahiyet() + ",row:" + div.getRow() + ",col:" + div.getColumn() + ";\n");
+                for (int d = 0; d < divs.size(); d++) {
+                    Divisions div = divs.get(d);
 
+                    writer.write("side:" + div.getSide() + ",photo:" + div.getImgpath() + ",men:" + div.getMen() + ",attack:" +
+                            div.getSaldırı() + ",defence:" + div.getSavunma() + ",morale:" +
+                            div.getMahiyet() + ",row:" + hex.getRow() + ",col:" + hex.getColumn() + ";\n");
+                }
             }
             writer.write("saveside:first;");
             writer.close();

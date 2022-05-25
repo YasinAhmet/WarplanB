@@ -10,7 +10,7 @@ public class FirstPanel extends JPanel {
     public String divlocation;
     public String maplocation;
     public String edgelocation;
-    public boolean debugmod = true;
+    public boolean debugmod = false;
     public String location;
     private int Width = 1000;
     private int Height = 680;
@@ -151,7 +151,7 @@ public class FirstPanel extends JPanel {
                     for (int g = 0; g < divisions.size(); g++) {
 
                         if (divisions.get(g).getRow() == hexagon.getRow() && divisions.get(g).getColumn() == hexagon.getColumn()) {
-                            addDivisions(hexagon, divisions.get(g).getMen(), divisions.get(g).getMahiyet(), divisions.get(g).getSaldırı(), divisions.get(g).getSavunma(), divisions.get(g).getSide(), divisions.get(g).getDivisionBackground());
+                            addDivisions(hexagon, divisions.get(g).getMen(), divisions.get(g).getMahiyet(), divisions.get(g).getSaldırı(), divisions.get(g).getSavunma(), divisions.get(g).getSide(), divisions.get(g).getDivisionBackground(), divisions.get(g).getImgpath());
                         }
                     }
                 }
@@ -167,9 +167,10 @@ public class FirstPanel extends JPanel {
         }
     }
 
-    public void addDivisions(Hexagon hex, int men, char mahiyet, int saldırı, int savunma, String side, ImageIcon background) {
+    public void addDivisions(Hexagon hex, int men, char mahiyet, int saldırı, int savunma, String side, ImageIcon background, String path) {
         Divisions division = new Divisions();
         division.Division(NatoINF, men, mahiyet, saldırı, savunma, background, side, 20);
+        division.setImgpath(path);
         hex.addDivision(division);
     }
 
@@ -180,7 +181,7 @@ public class FirstPanel extends JPanel {
     public void useMouseListener(InfoPanel infoPanel) {
         mouselistener = new Mouselistener();
         mouselistener.setFirstPanel(this);
-        mouselistener.ms(this, hexagons, cameraKey.getCamera());
+        mouselistener.ms(this, cameraKey.getCamera());
 
         mouselistener.setInfoPanel(infoPanel);
         addMouseListener(mouselistener);

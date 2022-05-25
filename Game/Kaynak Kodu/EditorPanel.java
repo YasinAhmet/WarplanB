@@ -1,55 +1,61 @@
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.RandomAccessFile;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class EditorPanel extends JPanel {
     Editor editor;
     JButton addUnit;
-    JButton addHex;
+    JButton editHexType;
     JButton addRiver;
+    JButton removeUnit;
     public FirstPanel firstPanel;
 
     public void launchPanelStuff(Editor editor) {
         this.editor = editor;
         this.setBounds(1000,35,366,720);
 
-        //Border border = BorderFactory.createLineBorder(new Color(182, 141, 64));
         this.setBackground(new Color(182, 141, 64));
-        Color buttonColor = new Color(18, 38, 32);
+        Color buttonColor = new Color(188, 38, 32);
 
-        addUnit = new JButton("Add Unit");
-        addHex = new JButton("Add Hex");
-        addRiver = new JButton("Add River");
+        addUnit = new JButton("Add unit to the selected hex");
+        removeUnit = new JButton("Remove all the units of the selected hex");
+        editHexType = new JButton("Change the selected hex");
+        addRiver = new JButton("Add river to the selected hex");
+
+        addUnit.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
+        removeUnit.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 12));
+        editHexType.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
+        addRiver.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 17));
 
         addUnit.setBackground(buttonColor);
-        addHex.setBackground(buttonColor);
+        removeUnit.setBackground(buttonColor);
+        editHexType.setBackground(buttonColor);
         addRiver.setBackground(buttonColor);
 
-        //addUnit.setBorder(border);
-        //addHex.setBorder(border);
-        //addRiver.setBorder(border);
-
         addUnit.addActionListener(this::UnitEvent);
-        addHex.addActionListener(this::HexEvent);
+        removeUnit.addActionListener(this::removeUnitEvent);
+        editHexType.addActionListener(this::HexEvent);
         addRiver.addActionListener(this::EdgeEvent);
 
-        //addUnit.setVerticalAlignment(SwingConstants.TOP);
-        //addHex.setVerticalAlignment(SwingConstants.CENTER);
-        //addRiver.setVerticalAlignment(SwingConstants.BOTTOM);
+        setLayout(new BoxLayout(this,BoxLayout.PAGE_AXIS));
 
-        addUnit.setVisible(true);
         add(addUnit);
-        add(addHex);
+        add(removeUnit);
+        add(editHexType);
         add(addRiver);
 
+        this.setBounds(1000,35,366,720);
+
         setVisible(true);
+    }
+
+    public void removeUnitEvent(ActionEvent e) {
+        ArrayList<Divisions> divs = firstPanel.mouselistener.hex.getDivisions();
+
+        for(Divisions div : divs) {
+            divs.remove(div);
+        }
     }
 
     public void UnitEvent(ActionEvent a) {

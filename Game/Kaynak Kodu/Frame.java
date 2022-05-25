@@ -57,7 +57,7 @@ public class Frame extends JFrame {
     public void Save() {
         hexagonWriter.Write(firstPanel.getHexagons(), firstPanel.maplocation);
         edgewriter.Write(firstPanel.getHexagons(), firstPanel.edgelocation);
-        divisionWriter.Write(firstPanel.getDivisions(), firstPanel.divlocation);
+        divisionWriter.Write(firstPanel.getHexagons(), firstPanel.divlocation);
     }
 
     public int Close() {

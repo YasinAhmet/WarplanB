@@ -50,23 +50,11 @@ public class Editor extends JFrame{
         };
     }
 
-    public void refreshPanel() {
-        remove(firstPanel);
-        firstPanel = new FirstPanel();
-
-        editorPanel.firstPanel = firstPanel;
-        firstPanel.startPanel(divloc,maploc,edgeloc);
-        this.addMouseListener(firstPanel.mouselistener);
-
-        firstPanel.cameraKey = listener;
-        add(firstPanel);
-    }
-
     public int Close() {
         System.out.println("Closing..");
         hexagonWriter.Write(firstPanel.getHexagons(), firstPanel.maplocation);
         edgewriter.Write(firstPanel.getHexagons(), firstPanel.edgelocation);
-        divisionWriter.Write(firstPanel.getDivisions(), firstPanel.divlocation);
+        divisionWriter.Write(firstPanel.getHexagons(), firstPanel.divlocation);
         return EXIT_ON_CLOSE;
     }
 
