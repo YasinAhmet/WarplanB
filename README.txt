@@ -1,3 +1,8 @@
+Kodu kendi oyunlarınızda kullanabilir, değiştirebilir, çalıştırabilir ve commercial olmamak suretiyle herhangi bir türlü yararlanabilirsiniz. Tüm kodlar şahsıma aittir, 7-8 aylık bir süreç içerisinde yazılmıştır. Herhangi bir oyun motoru vesaire kullanılmamış olmakla birlikte Java'da yazılmıştır.
+
+
+
+//ESKI KISIM
 Nasıl oynanır:
 
 Haritalar ve birlikler:
