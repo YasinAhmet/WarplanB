@@ -1,6 +1,7 @@
 Kodu kendi oyunlarınızda kullanabilir, değiştirebilir, çalıştırabilir ve commercial olmamak suretiyle herhangi bir türlü yararlanabilirsiniz. Tüm kodlar şahsıma aittir, 7-8 aylık bir süreç içerisinde yazılmıştır. Herhangi bir oyun motoru vesaire kullanılmamış olmakla birlikte Java'da yazılmıştır.
 
-![alt text](https://github.com/YasinAhmet/WarplanB/blob/9638f0d1dc9676ebd90fd8d1e4edf52f190d1e5b/unknown.png)
+![alt text](https://github.com/YasinAhmet/WarplanB/blob/9638f0d1dc9676ebd90fd8d1e4edf52f190d1e5b/unknown.png?raw=true)
+
 
 //ESKI KISIM
 Nasıl oynanır:
