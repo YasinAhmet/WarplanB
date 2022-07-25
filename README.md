@@ -1,40 +1,11 @@
-Kodu kendi oyunlarınızda kullanabilir, değiştirebilir, çalıştırabilir ve commercial olmamak suretiyle herhangi bir türlü yararlanabilirsiniz. Tüm kodlar şahsıma aittir, 7-8 aylık bir süreç içerisinde yazılmıştır. Herhangi bir oyun motoru vesaire kullanılmamış olmakla birlikte Java'da yazılmıştır.
+This is a wargame made by me in a period of five months. The main objective in this game is to destroy the enemy with minimal casualties of yours. I coded the game in Java without any private libraries except the official ones.
+
+To move an unit: click the hexagon that unit is in, select an unit from the selection panel which is a list of the divisions that are in the hexagon you selected. Then right click to another hexagon. This action will result with the movement of the selected units(The ones with red portrait).
+
+You can do the same action to attack, just right click on an enemy with the selected units this time. This will result with a small scale battle which causes the enemy to lose some soldiers.
+
+Movement points are important, do not forget to check before you move. You can edit, modify and even publish the game if you want to(You have to put my name into creddits).
 
 ![alt text](https://github.com/YasinAhmet/WarplanB/blob/9638f0d1dc9676ebd90fd8d1e4edf52f190d1e5b/unknown.png?raw=true)
 
 
-//ESKI KISIM
-Nasıl oynanır:
-
-Haritalar ve birlikler:
-Data kısmındaki Hexagons.txt ve Divisions.txt dosyalarının içeriğini değiştirerek farklı haritalar yapabilirsiniz. Birlikler divisions.txt dosyasından okunur.
-Her birliğin şuna benzer bir satırı vardır:
-
-side:first,men:100,attack:10,defence:5,morale:A,row:0,col:0;
-
-2 taraf vardır, birisi "first" yani Almanlar, ikincisi ise "second" yani Ruslar. Her birliğin kendi statları bulunur, bunları buradan istediğiniz gibi ayarlayabilrisiniz.
-Row ve col birliğin haritadaki konumunu belirtir. Bu dosyanın en sonunda da bu bulunmalıdır:
-
-saveside:second;
-
-Bu kod da oyunun kaydedildiği tarafı belirtir.
-
-
-Hexagons.txt dosyasında da harita oluşturulur. Bu dosyanın içeriği şuna benzer:
-
-(1. Satır)kkkggggcgk
-(2. Satır)kkgggggcck
-(3. Satır)ccccsgggkk
-(4. Satır)ssssssgggg
-(5. Satır)ssssssssss
-
-S(Sea) denizi, K(?) şehiri, G(Grassland) çayırı, C(?) ormanlığı temsil eder. Yukardan aşağı col değeri, soldan sağa ise row değeri kullanılır. Örneğin;
-Row'u 1 olan, col'u 2 olan bir birlik 2. satırın 3. altıgeninde çıkar(row/col+1 olarak, yani 0 değeri en soldur).
-
-Her altıgen tipinin savunma değeri vardır. Şehirin 15, ormanlığın 10, çayırın 5, denizin ise 0'dır. Denizde birlik yürütülemez.
-
-Oynanış:
-Oyunun teknik olarak bilinmesi gereken konuları bu kadardır. Oyunu oynarken haritadan sol tık ile altıgen seçebilir, sağda çıkan panelden de aynı şekilde sol tık ile birlik seçebilirsiniz.
-Seçilen birlikler sağ tık ile haritada yürütülebilir, yürütülen yerde düşman birlik varsa ona saldırır. Hareket etmek 5 hareket puanı, saldırmak 10 hareket puanı alır.
-
-Sadece saveside'da yazan tarafın birlikleri oynanabilir. Şu an oyunda yapay zeka yoktur.
